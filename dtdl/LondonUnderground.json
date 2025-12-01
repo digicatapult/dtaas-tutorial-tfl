@@ -1,0 +1,82 @@
+[
+  {
+    "@id": "dtmi:example:Station;1",
+    "@type": "Interface",
+    "@context": "dtmi:dtdl:context;3",
+    "displayName": "Station",
+    "contents": [
+      { "@type": "Property", "name": "name", "schema": "string" },
+      { "@type": "Property", "name": "stationId", "schema": "string" },
+      { "@type": "Property", "name": "latitude", "schema": "double" },
+      { "@type": "Property", "name": "longitude", "schema": "double" },
+      { "@type": "Relationship", "name": "servedByLine", "target": "dtmi:example:Line;1" },
+      { "@type": "Relationship", "name": "startingStation", "target": "dtmi:example:Route;1" },
+      { "@type": "Relationship", "name": "terminatingStation", "target": "dtmi:example:Route;1" },
+      { "@type": "Relationship", "name": "hasAccessibilityFeature", "target": "dtmi:example:AccessibilityFeature;1" }
+    ]
+  },
+  {
+    "@id": "dtmi:example:Route;1",
+    "@type": "Interface",
+    "@context": "dtmi:dtdl:context;3",
+    "displayName": "Route",
+    "contents": [
+      { "@type": "Property", "name": "routeId", "schema": "string" },
+      { "@type": "Property", "name": "direction", "schema": "string" },
+      { "@type": "Property", "name": "stationSequence", "schema": { "@type": "Array", "elementSchema": "string" } },
+      { "@type": "Relationship", "name": "onLine", "target": "dtmi:example:Line;1" },
+      { "@type": "Relationship", "name": "servesRoute", "target": "dtmi:example:Train;1" }
+    ]
+  },
+  {
+    "@id": "dtmi:example:Train;1",
+    "@type": "Interface",
+    "@context": "dtmi:dtdl:context;3",
+    "displayName": "Train",
+    "contents": [
+      { "@type": "Property", "name": "lineId", "schema": "string" },
+      { "@type": "Property", "name": "direction", "schema": "string" },
+      { "@type": "Property", "name": "timestamp", "schema": "string" },
+      { "@type": "Property", "name": "secondsToNextStop", "schema": "integer" },
+      { "@type": "Property", "name": "expectedArrival", "schema": "string" },
+      { "@type": "Property", "name": "nextStationId", "schema": "string" },
+      { "@type": "Property", "name": "nextStationName", "schema": "string" },
+      { "@type": "Property", "name": "vehicleId", "schema": "string" },
+      { "@type": "Relationship", "name": "servesRoute", "target": "dtmi:example:Route;1" }
+    ]
+  },
+  {
+    "@id": "dtmi:example:Line;1",
+    "@type": "Interface",
+    "@context": "dtmi:dtdl:context;3",
+    "displayName": "Line",
+    "contents": [
+      { "@type": "Property", "name": "lineId", "schema": "string" },
+      { "@type": "Property", "name": "name", "schema": "string" },
+      { "@type": "Property", "name": "colour", "schema": "string" },
+      { "@type": "Relationship", "name": "servedByLine", "target": "dtmi:example:Station;1" },
+      { "@type": "Relationship", "name": "onLine", "target": "dtmi:example:Route;1" },
+      { "@type": "Relationship", "name": "operatesLine", "target": "dtmi:example:TransportOperator;1" }
+    ]
+  },
+  {
+    "@id": "dtmi:example:TransportOperator;1",
+    "@type": "Interface",
+    "@context": "dtmi:dtdl:context;3",
+    "displayName": "TransportOperator",
+    "contents": [
+      { "@type": "Property", "name": "name", "schema": "string" },
+      { "@type": "Relationship", "name": "operatesLine", "target": "dtmi:example:Line;1" }
+    ]
+  },
+  {
+    "@id": "dtmi:example:AccessibilityFeature;1",
+    "@type": "Interface",
+    "@context": "dtmi:dtdl:context;3",
+    "displayName": "AccessibilityFeature",
+    "contents": [
+      { "@type": "Property", "name": "name", "schema": "string" },
+      { "@type": "Relationship", "name": "hasAccessibilityFeature", "target": "dtmi:example:Station;1" }
+    ]
+  }
+]
