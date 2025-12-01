@@ -98,6 +98,8 @@ The ontology expresses mostly static interfaces (Station, Route, AccessibilityFe
 
 
 # Interesting Queries
+[1] Forecast future bunching (headway < threshold)
+
 ```
 WITH 120 AS minSeparation   // seconds (2 minutes)
 
