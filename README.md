@@ -82,9 +82,11 @@ Use a UKDTC DTaaS Design Studio environment, or alternatively run Neo4j and Infl
 E.g.
 
 docker pull influxdb:2.7
+
 docker run -d --name influxdb -p 8086:8086 -v influxdb2_data:/var/lib/influxdb2 -e INFLUXDB_ADMIN_USER=admin -e INFLUXDB_ADMIN_PASSWORD=supersecretpassword -e INFLUXDB_BUCKET=mybucket -e INFLUXDB_ORG=myorg influxdb:2.7
 
 docker pull neo4j:5
+
 docker run -d --name neo4j -p 7474:7474 -p 7687:7687 -v neo4j_data:/data -e NEO4J_AUTH=neo4j/supersecretpassword neo4j:5
 
 # Build the Neo4j Graph
