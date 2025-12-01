@@ -97,4 +97,42 @@ The ontology expresses mostly static interfaces (Station, Route, AccessibilityFe
 [2] python tfl_train_loader.py
 
 
+# Interesting Queries
+```
+WITH 120 AS minSeparation   // seconds (2 minutes)
+
+MATCH (t:Train)-[:servesRoute]->(r:Route)-[:onLine]->(l:Line)
+WITH minSeparation,
+     l.name AS line, 
+     r.routeId AS route,
+     t.direction AS direction,
+     t,
+     datetime(t.expectedArrival) AS eta
+ORDER BY line, route, direction, eta
+
+WITH minSeparation,
+     line, route, direction,
+     collect({train: t, eta: eta}) AS trains
+
+UNWIND range(1, size(trains)-1) AS i
+WITH minSeparation,
+     line, route, direction,
+     trains[i-1] AS a,
+     trains[i] AS b,
+     duration.between(trains[i-1].eta, trains[i].eta).seconds AS gap
+
+WHERE gap < minSeparation
+
+RETURN 
+    line,
+    route,
+    direction,
+    a.train.vehicleId AS trainA,
+    a.eta AS etaA,
+    b.train.vehicleId AS trainB,
+    b.eta AS etaB,
+    gap AS gapSeconds
+ORDER BY gapSeconds ASC;   // smallest gaps first
+```
+
 
