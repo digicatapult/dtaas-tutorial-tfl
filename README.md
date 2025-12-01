@@ -90,8 +90,9 @@ docker run -d --name neo4j -p 7474:7474 -p 7687:7687 -v neo4j_data:/data -e NEO4
 # Build the Neo4j Graph
 The ontology expresses mostly static interfaces (Station, Route, AccessibilityFeature, TransportOperator, Line). There is one dynamic interface (Train). To run the tutorial we first create the static graph and then update the graph dynamically with train data.
 
-[1] python 
-[2] python
+[1] python tfl_graph_builder.py
+
+[2] python tfl_train_loader.py
 
 
 
