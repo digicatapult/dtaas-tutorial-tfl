@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>London Underground Live Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>#map { height: 100vh; }</style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  const map = L.map('map').setView([51.5074, -0.1278], 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  let stationMarkers = {};
+  let trainMarkers = {};
+
+  const ws = new WebSocket("ws://localhost:8000/ws/trains");
+
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    // --- Stations ---
+    data.stations.forEach(st => {
+      if (!stationMarkers[st.id]) {
+        stationMarkers[st.id] = L.circleMarker([st.lat, st.lon], {
+          radius: 5,
+          color: 'blue',
+          fillOpacity: 0.7
+        }).addTo(map).bindPopup(st.name);
+      }
+    });
+
+    // --- Trains ---
+    data.trains.forEach(tr => {
+      if (trainMarkers[tr.trainId]) {
+        trainMarkers[tr.trainId].setLatLng([tr.lat, tr.lon]);
+      } else {
+        trainMarkers[tr.trainId] = L.circleMarker([tr.lat, tr.lon], {
+          radius: 6,
+          color: 'red',
+          fillOpacity: 0.9
+        }).addTo(map).bindPopup(`Train ${tr.trainId} on ${tr.line}`);
+      }
+    });
+  };
+</script>
+</body>
+</html>
