@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorial</title>
+    <title>DTaaS Tutorial - TFL</title>
     <style>
         * {
             margin: 0;
@@ -17,6 +17,7 @@
             color: #333;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
         }
 
         /* Sidebar */
@@ -25,12 +26,12 @@
             background: rgba(44, 62, 80, 0.9);
             color: white;
             padding: 20px 0;
-            overflow-y: auto;
+            overflow: hidden;
             box-shadow: 4px 0 15px rgba(0,0,0,0.2);
-            height: 100vh;
+            height: calc(100vh - 120px);
             position: fixed;
             left: 0;
-            top: 0;
+            top: 120px;
         }
 
         .sidebar-menu {
@@ -48,7 +49,7 @@
 
         .sidebar-menu a {
             display: block;
-            padding: 15px 20px;
+            padding: 18px 20px;
             color: white;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -81,8 +82,14 @@
         .header {
             background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             text-align: center;
+	    height: 80px;
             padding: 30px 20px;
             color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
         }
 
         .header h1 {
@@ -104,11 +111,14 @@
             padding: 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             margin: 0;
+            margin-top: 120px;
             border-bottom: 1px solid #e0e0e0;
+            flex-wrap: wrap;
         }
 
         .top-nav a {
             flex: 1;
+            min-width: 150px;
             padding: 15px;
             color: #2c3e50;
             text-decoration: none;
@@ -140,6 +150,7 @@
             padding: 40px;
             overflow-y: auto;
             background: #f5f5f5;
+            margin-top: 20px;
         }
 
         .content-box {
@@ -189,10 +200,200 @@
             border-radius: 3px;
         }
 
+        .section h2 {
+            color: #2c3e50;
+            margin: 30px 0 20px 0;
+            font-size: 1.5em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
         .content-text {
             line-height: 1.8;
             color: #555;
             margin-bottom: 20px;
+        }
+
+        .section-intro {
+            background: #e8f4f8;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .definition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .definition-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .definition-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .definition-card .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .definition-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .definition-card p {
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .intro-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .asset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .asset-card {
+            background: white;
+            border: 2px solid #4a90e2;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .asset-card:hover {
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .asset-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .asset-card p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+        .asset-properties {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #4a90e2;
+        }
+
+        .asset-properties strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .asset-properties ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .asset-properties li {
+            color: #555;
+            padding: 3px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .asset-properties li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #4a90e2;
+            font-weight: bold;
+        }
+
+        .relationship-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .relationship-card {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .relationship-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .rel-label {
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+
+        .rel-name {
+            color: #fff;
+            background: #3498db;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: bold;
+            font-size: 0.95em;
+        }
+
+        .rel-meaning {
+            color: #2c3e50;
+            font-style: italic;
+            margin-top: 12px;
+            font-size: 0.9em;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid #4a90e2;
+        }
+
+        .info-box h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
         }
 
         .highlight {
@@ -228,6 +429,169 @@
         .simple-list li:hover {
             transform: translateX(5px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .visualization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .viz-card {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .viz-card:hover {
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .viz-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .viz-card p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+        .viz-features {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .viz-features strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .viz-features ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .viz-features li {
+            color: #555;
+            padding: 4px 0;
+            padding-left: 15px;
+            position: relative;
+            font-size: 0.9em;
+        }
+
+        .viz-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .validation-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .validation-card {
+            background: white;
+            border-left: 5px solid #3498db;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .validation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.2);
+        }
+
+        .validation-number {
+            position: absolute;
+            top: -15px;
+            left: 25px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .validation-card h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        .validation-subtitle {
+            color: #7f8c8d;
+            font-size: 0.85em;
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+
+        .summary-table {
+            display: grid;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .summary-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #4a90e2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .summary-term {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.05em;
+        }
+
+        .summary-definition {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .conclusion-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .conclusion-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
         }
 
         .benefits-grid {
@@ -266,66 +630,6 @@
             opacity: 0.95;
         }
 
-        .steps-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-
-        .step-card {
-            background: #f8f9fa;
-            border: 3px solid #4a90e2;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .step-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.2);
-        }
-
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #4a90e2, #357abd);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .step-card h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.05em;
-        }
-
-        .demo-scenario {
-            background: #e8f4f8;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 5px solid #4a90e2;
-        }
-
-        .demo-scenario h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .demo-scenario p {
-            color: #555;
-            margin: 5px 0;
-        }
-
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -335,19 +639,25 @@
                 width: 100%;
                 height: auto;
                 position: relative;
-                margin-left: 0;
+                top: auto;
             }
 
             .main-wrapper {
                 margin-left: 0;
             }
 
-            .header h1 {
-                font-size: 2em;
+            .header {
+                position: relative;
+		height: 100px;
+                top: auto;
             }
 
             .top-nav {
-                flex-wrap: wrap;
+                margin-top: 0;
+            }
+
+            .header h1 {
+                font-size: 2em;
             }
 
             .top-nav a {
@@ -357,13 +667,14 @@
 
             .content {
                 padding: 20px;
+                margin-top: 0;
             }
 
             .content-box {
                 padding: 20px;
             }
 
-            .benefits-grid, .steps-container {
+            .benefits-grid, .asset-grid, .visualization-grid, .validation-levels {
                 grid-template-columns: 1fr;
             }
 
@@ -374,6 +685,12 @@
     </style>
 </head>
 <body>
+    <!-- Header - Full Width -->
+    <div class="header">
+        <h1>DTaaS Tutorial - TFL</h1>
+        <p>DTaaS Tutorial using Transport for London API</p>
+    </div>
+
     <!-- Sidebar -->
     <aside class="sidebar">
         <ul class="sidebar-menu">
@@ -386,18 +703,12 @@
 
     <!-- Main wrapper -->
     <div class="main-wrapper">
-        <!-- Header -->
-        <div class="header">
-            <h1>DTaaS Tutorial-TFL</h1>
-            <p>DTaaS Tutorial using Transport for London API</p>
-        </div>
-
         <!-- Top navigation -->
         <nav class="top-nav" id="topNav">
-            <a href="#" class="top-item" data-section="section1" data-label="">Option 1</a>
-            <a href="#" class="top-item" data-section="section2" data-label="">Option 2</a>
-            <a href="#" class="top-item" data-section="section3" data-label="">Option 3</a>
-            <a href="#" class="top-item" data-section="section4" data-label="">Option 4</a>
+            <a href="#" class="top-item" data-index="0">Option 1</a>
+            <a href="#" class="top-item" data-index="1">Option 2</a>
+            <a href="#" class="top-item" data-index="2">Option 3</a>
+            <a href="#" class="top-item" data-index="3">Option 4</a>
         </nav>
 
         <!-- Content area -->
@@ -406,45 +717,351 @@
                 <!-- Menu 1 Sections -->
                 <div class="menu-container" id="menu1">
                     <div class="section active" id="section1">
-                        <h1>Menu 1 - Option 1</h1>
-                        <p class="content-text">This is the content for Menu Item 1, Option 1. Add your tutorial content here. You can include text, lists, and other elements to create a comprehensive learning experience.</p>
+                        <h1>Overview</h1>
+                        
+                        <div class="section-intro">
+                            <p><strong>An ontology</strong> is a structured, machine-understandable model that defines:</p>
+                        </div>
+
+                        <div class="definition-grid">
+                            <div class="definition-card">
+                                <div class="icon">📦</div>
+                                <h3>Asset Types</h3>
+                                <p>The types of things that exist in a system</p>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">🏷️</div>
+                                <h3>Properties</h3>
+                                <p>The properties those things have</p>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">🔗</div>
+                                <h3>Relationships</h3>
+                                <p>The relationships between them</p>
+                            </div>
+                        </div>
+
+                        <div class="highlight">
+                            <h3>Why Ontologies Matter</h3>
+                            <ul class="simple-list">
+                                <li>✔ Consistency across multiple data sources</li>
+                                <li>✔ Interoperability between systems</li>
+                                <li>✔ Automation and reasoning capabilities</li>
+                                <li>✔ Graph-based digital twin models</li>
+                                <li>✔ Visualisations that reflect the real world</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box">
+                            <h3>🚆 Why Ontologies Are Useful in Digital Twin Creation</h3>
+                            <p>Digital Twins represent real-world entities digitally. To keep those twins structured, discoverable, and interconnected, an ontology ensures:</p>
+                            <ul class="simple-list">
+                                <li><strong>Consistency:</strong> Every Station must have a stationId</li>
+                                <li><strong>Validation:</strong> Detect a Train claiming to be on a non-existent Line</li>
+                                <li><strong>Reasoning:</strong> Find all trains arriving at stations with accessibility features</li>
+                                <li><strong>Visualisation:</strong> Map stations based on latitude/longitude</li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="section" id="section2">
-                        <h1>Menu 1 - Option 2</h1>
-                        <p class="content-text">This is the content for Menu Item 1, Option 2. Add your tutorial content here.</p>
+                        <h1>Getting Started</h1>
+                        
+                        <div class="intro-box">
+                            <h3>🧱 What Is an Asset?</h3>
+                            <p>In an ontology, an asset is a type of thing modeled in the real world. In DTDL (Digital Twin Definition Language), assets are defined as <strong>Interfaces</strong>.</p>
+                        </div>
+
+                        <div class="asset-grid">
+                            <div class="asset-card">
+                                <h4>🚉 Station</h4>
+                                <p>Represents a physical train station</p>
+                                <div class="asset-properties">
+                                    <strong>Properties:</strong>
+                                    <ul>
+                                        <li>name</li>
+                                        <li>stationId</li>
+                                        <li>latitude</li>
+                                        <li>longitude</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="asset-card">
+                                <h4>🚂 Train</h4>
+                                <p>Represents a moving vehicle with real-time telemetry</p>
+                                <div class="asset-properties">
+                                    <strong>Properties:</strong>
+                                    <ul>
+                                        <li>lineId</li>
+                                        <li>timestamp</li>
+                                        <li>vehicleId</li>
+                                        <li>expectedArrival</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="asset-card">
+                                <h4>📍 Route</h4>
+                                <p>Represents a sequence of stations in travel order</p>
+                                <div class="asset-properties">
+                                    <strong>Properties:</strong>
+                                    <ul>
+                                        <li>routeId</li>
+                                        <li>direction</li>
+                                        <li>stationSequence</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="asset-card">
+                                <h4>🎯 Line</h4>
+                                <p>Represents a metro/tube line</p>
+                                <div class="asset-properties">
+                                    <strong>Properties:</strong>
+                                    <ul>
+                                        <li>lineId</li>
+                                        <li>name</li>
+                                        <li>colour</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="asset-card">
+                                <h4>♿ AccessibilityFeature</h4>
+                                <p>Represents accessibility options like elevators, ramps</p>
+                                <div class="asset-properties">
+                                    <strong>Enables:</strong>
+                                    <ul>
+                                        <li>Accessible route planning</li>
+                                        <li>Compliance dashboards</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="section" id="section3">
-                        <h1>Menu 1 - Option 3</h1>
-                        <p class="content-text">This is the content for Menu Item 1, Option 3. Add your tutorial content here.</p>
+                        <h1>Basics</h1>
+                        
+                        <div class="intro-box">
+                            <h3>🔗 What Are Relationships?</h3>
+                            <p>Relationships connect assets together and turn the system into a graph. They define direction, target asset type, and meaning.</p>
+                        </div>
+
+                        <div class="relationship-grid">
+                            <div class="relationship-card">
+                                <div class="rel-label">Station →</div>
+                                <div class="rel-name">servedByLine</div>
+                                <div class="rel-label">→ Line</div>
+                                <p class="rel-meaning">"This station is served by this line"</p>
+                            </div>
+
+                            <div class="relationship-card">
+                                <div class="rel-label">Route →</div>
+                                <div class="rel-name">onLine</div>
+                                <div class="rel-label">→ Line</div>
+                                <p class="rel-meaning">"This route belongs to this line"</p>
+                            </div>
+
+                            <div class="relationship-card">
+                                <div class="rel-label">Train →</div>
+                                <div class="rel-name">servesRoute</div>
+                                <div class="rel-label">→ Route</div>
+                                <p class="rel-meaning">"This train is travelling on this route"</p>
+                            </div>
+
+                            <div class="relationship-card">
+                                <div class="rel-label">Station →</div>
+                                <div class="rel-name">hasAccessibilityFeature</div>
+                                <div class="rel-label">→ Feature</div>
+                                <p class="rel-meaning">"This station includes this feature"</p>
+                            </div>
+                        </div>
+
+                        <div class="highlight">
+                            <h3>Why Relationships Matter</h3>
+                            <ul class="simple-list">
+                                <li>🔍 Power network queries and data discovery</li>
+                                <li>📊 Support dependency analysis</li>
+                                <li>🎨 Enable graph visualisation</li>
+                                <li>🧠 Allow reasoning and inference</li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="section" id="section4">
-                        <h1>Menu 1 - Option 4</h1>
-                        <p class="content-text">This is the content for Menu Item 1, Option 4. Add your tutorial content here.</p>
+                        <h1>Advanced</h1>
+                        
+                        <h2>🌐 How Relationships Can Be Visualised</h2>
+
+                        <div class="visualization-grid">
+                            <div class="viz-card">
+                                <h3>1. Knowledge Graph</h3>
+                                <p>Nodes & edges representing the full ontology structure</p>
+                                <div class="viz-features">
+                                    <p><strong>Useful for:</strong></p>
+                                    <ul>
+                                        <li>Ontology exploration</li>
+                                        <li>Debugging connections</li>
+                                        <li>Understanding system structure</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="viz-card">
+                                <h3>2. Geographical Map</h3>
+                                <p>Using Station.latitude & Station.longitude</p>
+                                <div class="viz-features">
+                                    <p><strong>Useful for:</strong></p>
+                                    <ul>
+                                        <li>Transit operations dashboards</li>
+                                        <li>Route planning</li>
+                                        <li>Real-time monitoring</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="viz-card">
+                                <h3>3. Network Diagram</h3>
+                                <p>Transit line map with color coding</p>
+                                <div class="viz-features">
+                                    <p><strong>Useful for:</strong></p>
+                                    <ul>
+                                        <li>Line organization</li>
+                                        <li>Station hierarchy</li>
+                                        <li>Public communication</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="viz-card">
+                                <h3>4. Accessibility Overlay</h3>
+                                <p>Highlight stations with accessibility features</p>
+                                <div class="viz-features">
+                                    <p><strong>Useful for:</strong></p>
+                                    <ul>
+                                        <li>Journey planning</li>
+                                        <li>Compliance tracking</li>
+                                        <li>Accessibility focus</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section" id="section5">
+                        <h1>Tips & Tricks</h1>
+                        
+                        <h2>✔ Validation in Digital Twin Ontologies</h2>
+                        <p>Validation ensures the system is correct, consistent, meaningful, and safe to query and visualise.</p>
+
+                        <div class="validation-levels">
+                            <div class="validation-card">
+                                <div class="validation-number">1</div>
+                                <h3>Structural Validation</h3>
+                                <p class="validation-subtitle">Model-Level Checks</p>
+                                <ul class="simple-list">
+                                    <li>Syntax correctness</li>
+                                    <li>Valid DTMI identifiers</li>
+                                    <li>References point to existing types</li>
+                                    <li>Property types are valid</li>
+                                </ul>
+                            </div>
+
+                            <div class="validation-card">
+                                <div class="validation-number">2</div>
+                                <h3>Semantic Validation</h3>
+                                <p class="validation-subtitle">Ontology Meaning</p>
+                                <ul class="simple-list">
+                                    <li>Train references valid Route</li>
+                                    <li>stationSequence contains valid IDs</li>
+                                    <li>Operator operates at least one Line</li>
+                                </ul>
+                            </div>
+
+                            <div class="validation-card">
+                                <div class="validation-number">3</div>
+                                <h3>Instance-Level Validation</h3>
+                                <p class="validation-subtitle">Twin Graph Checks</p>
+                                <ul class="simple-list">
+                                    <li>Station connected to at least one Line</li>
+                                    <li>Route belongs to exactly one Line</li>
+                                    <li>Train location matches route</li>
+                                </ul>
+                            </div>
+
+                            <div class="validation-card">
+                                <div class="validation-number">4</div>
+                                <h3>Telemetry Validation</h3>
+                                <p class="validation-subtitle">Dynamic Data Checks</p>
+                                <ul class="simple-list">
+                                    <li>secondsToNextStop ≥ 0</li>
+                                    <li>expectedArrival ≥ timestamp</li>
+                                    <li>Train direction matches Route</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section" id="section6">
+                        <h1>Conclusion</h1>
+                        
+                        <h2>🎯 Summary</h2>
+                        
+                        <div class="summary-table">
+                            <div class="summary-row">
+                                <div class="summary-term">Ontology</div>
+                                <div class="summary-definition">The structured model defining asset types, properties, and relationships</div>
+                            </div>
+                            <div class="summary-row">
+                                <div class="summary-term">Use in DTs</div>
+                                <div class="summary-definition">Provides consistency, interoperability, reasoning, and visualisation</div>
+                            </div>
+                            <div class="summary-row">
+                                <div class="summary-term">Assets</div>
+                                <div class="summary-definition">Real-world entities represented in the ontology (Station, Train, Line)</div>
+                            </div>
+                            <div class="summary-row">
+                                <div class="summary-term">Relationships</div>
+                                <div class="summary-definition">Connect assets into a navigable graph</div>
+                            </div>
+                            <div class="summary-row">
+                                <div class="summary-term">Visualisation</div>
+                                <div class="summary-definition">Graphs, maps, network diagrams, accessibility overlays</div>
+                            </div>
+                            <div class="summary-row">
+                                <div class="summary-term">Validation</div>
+                                <div class="summary-definition">Ensures correctness at model, semantic, instance, and telemetry levels</div>
+                            </div>
+                        </div>
+
+                        <div class="conclusion-box">
+                            <h3>Next Steps</h3>
+                            <p>Now that you understand ontologies, explore the other sections to dive deeper into implementation and best practices.</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Menu 2 Sections -->
-                <div class="menu-container" id="menu2">
-                    <div class="section" id="section2">
-                        <h1>Menu 2 - Option 1</h1>
+                <div class="menu-container" id="menu2" style="display: none;">
+                    <div class="section active" id="section1-m2">
+                        <h1>Data Acquisition - Introduction</h1>
                         <p class="content-text">Content for Menu Item 2, Option 1.</p>
                     </div>
 
                     <div class="section" id="section2-m2">
-                        <h1>Menu 2 - Option 2</h1>
+                        <h1>Data Acquisition - Setup</h1>
                         <p class="content-text">Content for Menu Item 2, Option 2.</p>
                     </div>
 
                     <div class="section" id="section3-m2">
-                        <h1>Menu 2 - Option 3</h1>
+                        <h1>Data Acquisition - Configuration</h1>
                         <p class="content-text">Content for Menu Item 2, Option 3.</p>
                     </div>
 
                     <div class="section" id="section4-m2">
-                        <h1>Menu 2 - Option 4</h1>
+                        <h1>Data Acquisition - Troubleshooting</h1>
                         <p class="content-text">Content for Menu Item 2, Option 4.</p>
                     </div>
                 </div>
@@ -452,22 +1069,22 @@
                 <!-- Menu 3 Sections -->
                 <div class="menu-container" id="menu3" style="display: none;">
                     <div class="section active" id="section1-m3">
-                        <h1>Menu 3 - Option 1</h1>
+                        <h1>Visualisation - Chapter 1</h1>
                         <p class="content-text">Content for Menu Item 3, Option 1.</p>
                     </div>
 
                     <div class="section" id="section2-m3">
-                        <h1>Menu 3 - Option 2</h1>
+                        <h1>Visualisation - Chapter 2</h1>
                         <p class="content-text">Content for Menu Item 3, Option 2.</p>
                     </div>
 
                     <div class="section" id="section3-m3">
-                        <h1>Menu 3 - Option 3</h1>
+                        <h1>Visualisation - Chapter 3</h1>
                         <p class="content-text">Content for Menu Item 3, Option 3.</p>
                     </div>
 
                     <div class="section" id="section4-m3">
-                        <h1>Menu 3 - Option 4</h1>
+                        <h1>Visualisation - Chapter 4</h1>
                         <p class="content-text">Content for Menu Item 3, Option 4.</p>
                     </div>
                 </div>
@@ -475,22 +1092,22 @@
                 <!-- Menu 4 Sections -->
                 <div class="menu-container" id="menu4" style="display: none;">
                     <div class="section active" id="section1-m4">
-                        <h1>Menu 4 - Option 1</h1>
+                        <h1>Queries - Foundation</h1>
                         <p class="content-text">Content for Menu Item 4, Option 1.</p>
                     </div>
 
                     <div class="section" id="section2-m4">
-                        <h1>Menu 4 - Option 2</h1>
+                        <h1>Queries - Development</h1>
                         <p class="content-text">Content for Menu Item 4, Option 2.</p>
                     </div>
 
                     <div class="section" id="section3-m4">
-                        <h1>Menu 4 - Option 3</h1>
+                        <h1>Queries - Deployment</h1>
                         <p class="content-text">Content for Menu Item 4, Option 3.</p>
                     </div>
 
                     <div class="section" id="section4-m4">
-                        <h1>Menu 4 - Option 4</h1>
+                        <h1>Queries - Maintenance</h1>
                         <p class="content-text">Content for Menu Item 4, Option 4.</p>
                     </div>
                 </div>
@@ -502,7 +1119,7 @@
         let currentMenu = 'menu1';
 
         const menuLabels = {
-            menu1: ['Assets', 'Relationships', 'Visualiser', 'Validate'],
+            menu1: ['Ontologies', 'Assets', 'Relationships', 'Visualisation', 'Validation', 'Summary'],
             menu2: ['Introduction', 'Setup', 'Configuration', 'Troubleshooting'],
             menu3: ['Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4'],
             menu4: ['Foundation', 'Development', 'Deployment', 'Maintenance']
@@ -510,9 +1127,42 @@
 
         function updateTopNavLabels(menu) {
             const labels = menuLabels[menu];
-            const topItems = document.querySelectorAll('.top-item');
-            topItems.forEach((item, index) => {
-                item.textContent = labels[index];
+            const topNav = document.getElementById('topNav');
+            
+            // Clear existing buttons
+            topNav.innerHTML = '';
+            
+            // Create buttons based on menu labels
+            labels.forEach((label, index) => {
+                const button = document.createElement('a');
+                button.href = '#';
+                button.className = 'top-item';
+                button.setAttribute('data-index', index);
+                button.textContent = label;
+                topNav.appendChild(button);
+            });
+            
+            // Re-attach click handlers to new buttons
+            attachTopNavHandlers();
+        }
+
+        function attachTopNavHandlers() {
+            document.querySelectorAll('.top-item').forEach((item, index) => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelectorAll('.top-item').forEach(b => b.classList.remove('active'));
+                    item.classList.add('active');
+
+                    const sectionNum = index + 1;
+                    const menuSuffix = currentMenu === 'menu1' ? '' : '-' + currentMenu.slice(-1);
+                    const sectionId = 'section' + sectionNum + menuSuffix;
+
+                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.classList.add('active');
+                    }
+                });
             });
         }
 
@@ -548,26 +1198,10 @@
             });
         });
 
-        // Handle top navigation clicks
-        document.querySelectorAll('.top-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelectorAll('.top-item').forEach(b => b.classList.remove('active'));
-                item.classList.add('active');
-
-                const sectionNum = item.getAttribute('data-section').replace('section', '');
-                const menuSuffix = currentMenu === 'menu1' ? '' : '-' + currentMenu.slice(-1);
-                const sectionId = 'section' + sectionNum + menuSuffix;
-
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                document.getElementById(sectionId).classList.add('active');
-            });
-        });
-
         // Set initial active states and labels
         document.querySelector('[data-menu="menu1"]').classList.add('active');
-        document.querySelector('[data-section="section1"]').classList.add('active');
         updateTopNavLabels('menu1');
+        attachTopNavHandlers();
     </script>
 </body>
 </html>
