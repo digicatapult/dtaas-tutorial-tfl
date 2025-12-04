@@ -1,13 +1,119 @@
 [
     {
-        "id": "http_request1",
+        "id": "inject_start",
+        "type": "inject",
+        "z": "077405683a14fdcf",
+        "name": "Initialize lines",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 240,
+        "y": 420,
+        "wires": [
+            [
+                "function_init"
+            ]
+        ]
+    },
+    {
+        "id": "function_init",
+        "type": "function",
+        "z": "077405683a14fdcf",
+        "name": "Set line list & index",
+        "func": "// store list of lines\ncontext.set('lines', [\n    'bakerloo','central','circle','district',\n    'hammersmith-city','jubilee','metropolitan',\n    'northern','piccadilly','victoria','waterloo-city'\n]);\n\n// start index\ncontext.set('index', 0);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 420,
+        "wires": [
+            [
+                "inject_cycle"
+            ]
+        ]
+    },
+    {
+        "id": "inject_cycle",
+        "type": "inject",
+        "z": "077405683a14fdcf",
+        "name": "Trigger cycle",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "10",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 760,
+        "y": 420,
+        "wires": [
+            [
+                "function_next_line"
+            ]
+        ]
+    },
+    {
+        "id": "function_next_line",
+        "type": "function",
+        "z": "077405683a14fdcf",
+        "name": "Select next line",
+        "func": "// Get lines array\nvar lines = context.get('lines');\n\n// If lines have NOT been initialised yet, initialise them here\nif (!lines) {\n    lines = [\n        'bakerloo','central','circle','district',\n        'hammersmith-city','jubilee','metropolitan',\n        'northern','piccadilly','victoria','waterloo-city'\n    ];\n    context.set('lines', lines);\n}\n\n// Get current index\nvar index = context.get('index') || 0;\n\n// Select line\nvar line_id = lines[index];\nmsg.line_id = line_id;\n\n// Increment index\nindex = (index + 1) % lines.length;\ncontext.set('index', index);\n\n// Build URL\nmsg.url = 'https://api.tfl.gov.uk/Line/' + line_id + '/Arrivals';\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 420,
+        "wires": [
+            [
+                "924a3e407180b9ba",
+                "ae0b3e7850449b4c"
+            ]
+        ]
+    },
+    {
+        "id": "924a3e407180b9ba",
+        "type": "debug",
+        "z": "077405683a14fdcf",
+        "name": "URL debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1270,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "ae0b3e7850449b4c",
         "type": "http request",
         "z": "077405683a14fdcf",
-        "name": "TfL Line Arrivals",
+        "name": "",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "https://api.tfl.gov.uk/Line/victoria/Arrivals",
+        "url": "",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -15,56 +121,54 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 480,
-        "y": 180,
+        "x": 1270,
+        "y": 420,
         "wires": [
             [
-                "json1"
+                "4f34942e8829adf1",
+                "d86ebc83d2ef7d71"
             ]
         ]
     },
     {
-        "id": "json1",
+        "id": "4f34942e8829adf1",
+        "type": "debug",
+        "z": "077405683a14fdcf",
+        "d": true,
+        "name": "HTTP Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1530,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "d86ebc83d2ef7d71",
         "type": "json",
         "z": "077405683a14fdcf",
-        "name": "Parse JSON",
+        "name": "",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 680,
-        "y": 180,
+        "x": 1510,
+        "y": 420,
         "wires": [
             [
-                "function1"
+                "c41c3b8f356e76ec"
             ]
         ]
     },
     {
-        "id": "function1",
-        "type": "function",
-        "z": "077405683a14fdcf",
-        "name": "Format for MQTT",
-        "func": "msg.topic = 'tfl/victoria/arrivals';\n// optional: pick only first 5 trains\nmsg.payload = msg.payload.slice(0,5);\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 880,
-        "y": 180,
-        "wires": [
-            [
-                "mqtt_out1",
-                "b45ce6a9f3000f8a"
-            ]
-        ]
-    },
-    {
-        "id": "mqtt_out1",
+        "id": "c41c3b8f356e76ec",
         "type": "mqtt out",
         "z": "077405683a14fdcf",
-        "name": "MQTT Publish",
+        "name": "MQTT Full Publish",
         "topic": "tfl/trains",
         "qos": "",
         "retain": "",
@@ -74,93 +178,9 @@
         "correl": "",
         "expiry": "",
         "broker": "mqtt_broker1",
-        "x": 1080,
-        "y": 180,
+        "x": 1730,
+        "y": 420,
         "wires": []
-    },
-    {
-        "id": "b45ce6a9f3000f8a",
-        "type": "debug",
-        "z": "077405683a14fdcf",
-        "name": "TfL Partial Payload",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1090,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "a803770bcb5f5692",
-        "type": "inject",
-        "z": "077405683a14fdcf",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "30",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 290,
-        "y": 180,
-        "wires": [
-            [
-                "http_request1"
-            ]
-        ]
-    },
-    {
-        "id": "6bf920c53db82b58",
-        "type": "debug",
-        "z": "077405683a14fdcf",
-        "name": "ShowMQTT",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 530,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "37f0b3e4622adfca",
-        "type": "mqtt in",
-        "z": "077405683a14fdcf",
-        "name": "MQTT Subscribe",
-        "topic": "tfl/trains",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "mqtt_broker1",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 260,
-        "y": 280,
-        "wires": [
-            [
-                "6bf920c53db82b58"
-            ]
-        ]
     },
     {
         "id": "mqtt_broker1",
