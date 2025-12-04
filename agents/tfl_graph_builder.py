@@ -7,9 +7,9 @@ TFL_BASE_URL = "https://api.tfl.gov.uk"
 LINES_URL = f"{TFL_BASE_URL}/Line/Mode/tube"
 
 # ---- Neo4j settings ----
-NEO4J_URI = "bolt://localhost:7687"
+NEO4J_URI = "bolt+s://neo4j.ukdtc-dtaas-uop.ukdtc.uk:7687"
 NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = ""  # replace with secure password
+NEO4J_PASSWORD = ""  
 
 driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 
