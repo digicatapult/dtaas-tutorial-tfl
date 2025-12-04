@@ -1,0 +1,207 @@
+[
+    {
+        "id": "http_request1",
+        "type": "http request",
+        "z": "077405683a14fdcf",
+        "name": "TfL Line Arrivals",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.tfl.gov.uk/Line/victoria/Arrivals",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 480,
+        "y": 180,
+        "wires": [
+            [
+                "json1"
+            ]
+        ]
+    },
+    {
+        "id": "json1",
+        "type": "json",
+        "z": "077405683a14fdcf",
+        "name": "Parse JSON",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 680,
+        "y": 180,
+        "wires": [
+            [
+                "function1"
+            ]
+        ]
+    },
+    {
+        "id": "function1",
+        "type": "function",
+        "z": "077405683a14fdcf",
+        "name": "Format for MQTT",
+        "func": "msg.topic = 'tfl/victoria/arrivals';\n// optional: pick only first 5 trains\nmsg.payload = msg.payload.slice(0,5);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 180,
+        "wires": [
+            [
+                "mqtt_out1",
+                "b45ce6a9f3000f8a"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_out1",
+        "type": "mqtt out",
+        "z": "077405683a14fdcf",
+        "name": "MQTT Publish",
+        "topic": "tfl/trains",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqtt_broker1",
+        "x": 1080,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "b45ce6a9f3000f8a",
+        "type": "debug",
+        "z": "077405683a14fdcf",
+        "name": "TfL Partial Payload",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "a803770bcb5f5692",
+        "type": "inject",
+        "z": "077405683a14fdcf",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 290,
+        "y": 180,
+        "wires": [
+            [
+                "http_request1"
+            ]
+        ]
+    },
+    {
+        "id": "6bf920c53db82b58",
+        "type": "debug",
+        "z": "077405683a14fdcf",
+        "name": "ShowMQTT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "37f0b3e4622adfca",
+        "type": "mqtt in",
+        "z": "077405683a14fdcf",
+        "name": "MQTT Subscribe",
+        "topic": "tfl/trains",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "mqtt_broker1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 280,
+        "wires": [
+            [
+                "6bf920c53db82b58"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_broker1",
+        "type": "mqtt-broker",
+        "name": "MQTT Broker",
+        "broker": "mosquitto.ukdtc-dtaas-uop.ukdtc.uk",
+        "port": "8883",
+        "tls": "86cdeb94ce5e064e",
+        "clientid": "nodered",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": 4,
+        "keepalive": 15,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "86cdeb94ce5e064e",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "mosquitto.ukdtc-dtaas-uop.ukdtc.uk",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    }
+]
