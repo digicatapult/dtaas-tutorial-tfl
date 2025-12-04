@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,6 +75,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            padding: 100px 0px;
             margin-left: 220px;
             min-height: 100vh;
         }
@@ -82,18 +84,18 @@
         .header {
             background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             text-align: center;
-	    height: 80px;
-            padding: 30px 20px;
+	    height: 100px;
+            padding: 5px 20px;
             color: white;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 100;
+            z-index: 50;
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
@@ -113,6 +115,10 @@
             margin: 0;
             margin-top: 120px;
             border-bottom: 1px solid #e0e0e0;
+            position: fixed;
+            top: -20px;
+            left: 220px;
+            right: 0;
             flex-wrap: wrap;
         }
 
@@ -206,6 +212,12 @@
             font-size: 1.5em;
             border-bottom: 2px solid #3498db;
             padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #2c3e50;
+            margin: 20px 0 15px 0;
+            font-size: 1.2em;
         }
 
         .content-text {
@@ -568,6 +580,9 @@
             border-left: 4px solid #4a90e2;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+        .summary-row:hover {
+            transform: translateY(-5px);
+        }
 
         .summary-term {
             font-weight: bold;
@@ -579,7 +594,77 @@
             color: #555;
             line-height: 1.6;
         }
+        .summary-table-3col {
+            display: grid;
+            gap: 15px;
+            margin: 25px 0;
+        }
 
+        .summary-row-3col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #4a90e2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .summary-row-3col:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .summary-row-3col.table-header {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            font-weight: bold;
+            border-left: none;
+        }
+
+        .summary-cell {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .summary-row-3col.table-header .summary-cell {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .summary-row-3col {
+                grid-template-columns: 1fr;
+            }
+        }
+        .table-wrapper {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 25px 0;
+            border: 2px solid #e0e0e0;
+        }
+
+        .table-wrapper:hover {
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Update the table to remove individual shadows inside the wrapper */
+        .table-wrapper .summary-table-3col {
+            margin: 0;
+        }
+
+        .table-wrapper .summary-row-3col {
+            box-shadow: none;
+            border: 1px solid #e0e0e0;
+        }
+
+        .table-wrapper .summary-row-3col:hover {
+            transform: none;
+            background: #f8f9fa;
+        }
         .conclusion-box {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -628,6 +713,131 @@
         .benefit-card p {
             font-size: 0.95em;
             opacity: 0.95;
+        }
+
+        /* New styles for better text formatting */
+        .text-section {
+            margin-bottom: 30px;
+        }
+
+        .text-section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .highlights-list {
+            background: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .highlights-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .highlights-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #2c3e50;
+        }
+
+        .highlights-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe0cc 100%);
+            border-left: 4px solid #f39c12;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .example-box strong {
+            color: #d68910;
+        }
+        .example-box:hover {
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .key-questions {
+            background: #e8f8f5;
+            border-left: 4px solid #27ae60;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .key-questions:hover {
+            transform: translateY(-5px);
+        }
+
+        .key-questions p {
+            margin-bottom: 10px;
+            color: #1e5631;
+        }
+
+        .key-questions ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .key-questions li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #1e5631;
+        }
+
+        .key-questions li:before {
+            content: "❓";
+            position: absolute;
+            left: 0;
+        }
+
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .step-item {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 10px;
+        }
+
+        .step-item p {
+            font-size: 0.95em;
+            margin: 0;
         }
 
         @media (max-width: 768px) {
@@ -680,6 +890,10 @@
 
             .section h1 {
                 font-size: 1.5em;
+            }
+
+            .summary-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -765,7 +979,6 @@
                     </div>
 
                     <div class="section" id="section2">
-                        <h1>Getting Started</h1>
                         
                         <div class="intro-box">
                             <h3>🧱 What Is an Asset?</h3>
@@ -774,7 +987,7 @@
 
                         <div class="asset-grid">
                             <div class="asset-card">
-                                <h4>🚉 Station</h4>
+                                <h4>Station</h4>
                                 <p>Represents a physical train station</p>
                                 <div class="asset-properties">
                                     <strong>Properties:</strong>
@@ -788,21 +1001,24 @@
                             </div>
 
                             <div class="asset-card">
-                                <h4>🚂 Train</h4>
+                                <h4>Train</h4>
                                 <p>Represents a moving vehicle with real-time telemetry</p>
                                 <div class="asset-properties">
                                     <strong>Properties:</strong>
                                     <ul>
                                         <li>lineId</li>
+					<li>direction</li>
                                         <li>timestamp</li>
-                                        <li>vehicleId</li>
+					<li>secondsToNextSto</li>
+					<li>vehicleId</li>
+                                        <li>nextStationId</li>
                                         <li>expectedArrival</li>
                                     </ul>
                                 </div>
                             </div>
 
                             <div class="asset-card">
-                                <h4>📍 Route</h4>
+                                <h4>Route</h4>
                                 <p>Represents a sequence of stations in travel order</p>
                                 <div class="asset-properties">
                                     <strong>Properties:</strong>
@@ -815,7 +1031,7 @@
                             </div>
 
                             <div class="asset-card">
-                                <h4>🎯 Line</h4>
+                                <h4>Line</h4>
                                 <p>Represents a metro/tube line</p>
                                 <div class="asset-properties">
                                     <strong>Properties:</strong>
@@ -827,8 +1043,19 @@
                                 </div>
                             </div>
 
+			<div class="asset-card">
+                                <h4>TransportOperator</h4>
+                                <p>Represents the organization managing a line</p>
+                                <div class="asset-properties">
+                                    <strong>Properties:</strong>
+                                    <ul>
+                                        <li>name</li>
+                                    </ul>
+                                </div>
+                            </div>
+
                             <div class="asset-card">
-                                <h4>♿ AccessibilityFeature</h4>
+                                <h4>AccessibilityFeature</h4>
                                 <p>Represents accessibility options like elevators, ramps</p>
                                 <div class="asset-properties">
                                     <strong>Enables:</strong>
@@ -842,7 +1069,6 @@
                     </div>
 
                     <div class="section" id="section3">
-                        <h1>Basics</h1>
                         
                         <div class="intro-box">
                             <h3>🔗 What Are Relationships?</h3>
@@ -891,7 +1117,6 @@
                     </div>
 
                     <div class="section" id="section4">
-                        <h1>Advanced</h1>
                         
                         <h2>🌐 How Relationships Can Be Visualised</h2>
 
@@ -951,7 +1176,6 @@
                     </div>
 
                     <div class="section" id="section5">
-                        <h1>Tips & Tricks</h1>
                         
                         <h2>✔ Validation in Digital Twin Ontologies</h2>
                         <p>Validation ensures the system is correct, consistent, meaningful, and safe to query and visualise.</p>
@@ -1005,88 +1229,1106 @@
                     </div>
 
                     <div class="section" id="section6">
-                        <h1>Conclusion</h1>
+                        <h1>Summary</h1>
                         
-                        <h2>🎯 Summary</h2>
+                        <h2>🏗️ How to Develop an Ontology From Assets and Relationships</h2>
+                        
+                        <div class="text-section">
+                            <p>Building an ontology is a structured, iterative process. You start with an understanding of what exists in the real system and how these things interact. From this, you create a formal digital representation using a language like DTDL.</p>
+                            <p>This section explains how to go from <strong>real-world understanding → structured ontology</strong>.</p>
+                        </div>
                         
                         <div class="summary-table">
                             <div class="summary-row">
-                                <div class="summary-term">Ontology</div>
-                                <div class="summary-definition">The structured model defining asset types, properties, and relationships</div>
+                                <div class="summary-term">1. Identify the Real-World Domain</div>
+                                <div class="summary-definition">
+                                    <p>The first step in creating an ontology is understanding the domain you want to model.</p>
+                                    <strong>Example domain: London Railway System</strong>
+                                    <div class="key-questions">
+                                        <p><strong>Key questions:</strong></p>
+                                        <ul>
+                                            <li>What physical objects exist?</li>
+                                            <li>What logical concepts exist?</li>
+                                            <li>What data is generated?</li>
+                                            <li>What entities interact?</li>
+                                            <li>What does the system need to represent digitally?</li>
+                                        </ul>
+                                        <p style="margin-top: 10px;">From these questions, the domain assets emerge.</p>
+                                    </div>
+                                </div>
+                            </div>
+
                             </div>
                             <div class="summary-row">
-                                <div class="summary-term">Use in DTs</div>
-                                <div class="summary-definition">Provides consistency, interoperability, reasoning, and visualisation</div>
+                                <div class="summary-term">2. Identify the Core Asset Types</div>
+                                <div class="summary-definition">
+                                    <p>Assets are the noun concepts of the system.</p>
+                                    <div class="example-box">
+                                        <strong>In a transit system, typical assets include:</strong>
+                                        <ul style="margin-top: 10px; list-style: none; padding-left: 15px;">
+                                            <li>✓ Stations</li>
+                                            <li>✓ Trains</li>
+                                            <li>✓ Lines</li>
+                                            <li>✓ Routes</li>
+                                            <li>✓ Operators</li>
+                                            <li>✓ Accessibility features</li>
+                                        </ul>
+                                    </div>
+                                    <div class="key-questions">
+                                        <p><strong>How to determine whether something should be an asset:</strong></p>
+                                        <ul>
+                                            <li>Does it exist independently in the real world?</li>
+                                            <li>Does it have data associated with it?</li>
+                                            <li>Can it appear more than once?</li>
+                                            <li>Will it need to connect to other entities?</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                             <div class="summary-row">
-                                <div class="summary-term">Assets</div>
-                                <div class="summary-definition">Real-world entities represented in the ontology (Station, Train, Line)</div>
+                                <div class="summary-term">3. Define Properties for Each Asset</div>
+                                <div class="summary-definition">
+                                    <p>Every asset needs properties describing its characteristics.</p>
+                                    <div class="example-box">
+                                        <strong>Station properties:</strong>
+                                        <ul style="margin-top: 10px; list-style: none; padding-left: 15px;">
+                                            <li>• name</li>
+                                            <li>• stationId</li>
+                                            <li>• latitude</li>
+                                            <li>• longitude</li>
+                                        </ul>
+                                        <p style="margin-top: 10px;"><strong>Why these?</strong> Required to label, index, and place stations on maps.</p>
+                                    </div>
+                                    <div class="example-box">
+                                        <strong>Train properties:</strong>
+                                        <ul style="margin-top: 10px; list-style: none; padding-left: 15px;">
+                                            <li>• timestamp</li>
+                                            <li>• expectedArrival</li>
+                                            <li>• vehicleId</li>
+                                            <li>• secondsToNextStop</li>
+                                        </ul>
+                                        <p style="margin-top: 10px;"><strong>Why these?</strong> Telemetry feeds into dashboards and analytics.</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="summary-row">
-                                <div class="summary-term">Relationships</div>
-                                <div class="summary-definition">Connect assets into a navigable graph</div>
+                                <div class="summary-term">4. Identify Relationships Between Assets</div>
+                                <div class="summary-definition">
+                                    <p>Relationships turn isolated assets into a connected graph, which is essential for digital twins.</p>
+                                    <div class="key-questions">
+                                        <p><strong>How to choose relationships:</strong></p>
+                                        <ul>
+                                            <li>Which assets depend on others?</li>
+                                            <li>Which assets group or organise other assets?</li>
+                                            <li>What does the system need to query in real-world terms?</li>
+                                            <li>What is the flow of data or movement?</li>
+                                        </ul>
+                                    </div>
+                                    <div class="visualization-grid">
+                            <div class="viz-card">
+                                <h3><strong>Station → servedByLine → Line:</strong></h3>
+                                <p>A station belongs to one or more transit lines</p>
+                                <div class="viz-features">
+                                    <p><strong>Example query enabled:</strong></p>
+                                    <ul>
+                                        <li>“Show all stations on the Red Line.”</li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="summary-row">
-                                <div class="summary-term">Visualisation</div>
-                                <div class="summary-definition">Graphs, maps, network diagrams, accessibility overlays</div>
+
+                            <div class="viz-card">
+                                <h3><strong>Route → onLine → Line:</strong></h3>
+                                <p>A route is part of exactly one line.</p>
+                                <div class="viz-features">
+                                    <p><strong>This mirrors operational rules:</strong></p>
+                                    <ul>
+                                        <li>lines usually have multiple routes but each route belongs to one line.</li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="summary-row">
-                                <div class="summary-term">Validation</div>
-                                <div class="summary-definition">Ensures correctness at model, semantic, instance, and telemetry levels</div>
+
+                            <div class="viz-card">
+                                <h3><strong>Train → servesRoute → Route:</strong></h3>
+                                <p>The train follows a specific path composed of an ordered sequence of stations.</p>
+                                <div class="viz-features">
+                                    <p><strong>This allows:</strong></p>
+                                    <ul>
+                                        <li>Real-time train tracking</li>
+                                        <li>Prediction of next stations</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="viz-card">
+                                <h3><strong>Station → hasAccessibilityFeature → AccessibilityFeature:</strong></h3>
+                                <p>Highlight stations with accessibility features</p>
+                                <div class="viz-features">
+                                    <p><strong>A station offers accessibility options like elevators.</strong></p>
+                                    <ul>
+                                        <li>Accessibility planning</li>
+                                        <li>Compliance reporting</li>
+                                        <li>Enhanced journey planning</li>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="conclusion-box">
-                            <h3>Next Steps</h3>
-                            <p>Now that you understand ontologies, explore the other sections to dive deeper into implementation and best practices.</p>
+                    </div>
+                </div>
+                <div class="summary-row">
+                    <div class="summary-term">5. Relationship Cardinality and Direction</div>
+                    <div class="summary-definition">Even though DTDL does not explicitly define cardinality, it is important in ontology design.
+                        <div class="example-box">
+                            <strong>For example:</strong>
+                            <ul style="margin-top: 10px; list-style: none; padding-left: 15px;">
+                                <li>• A Station can be served by multiple Lines</li>
+                                <li>• A Route belongs to one Line</li>
+                                <li>• A Train serves one Route at a time</li>
+                                <li>• A TransportOperator can operate many Lines</li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>Why?</strong> Documenting intended cardinality helps validate real data and avoid incorrect connections</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-row">
+                    <div class="summary-term">6. Design the Graph Structure</div>
+                    <div class="summary-definition">Once assets and relationships are defined, the ontology can be viewed as a graph:
+                        <div class="example-box">
+                            <strong>For example:</strong>
+                            <ul style="margin-top: 10px; list-style: none; padding-left: 15px;">
+                                <li>Nodes = assets</li>
+                                <li>Edges = relationships</li>
+                            </ul>
+                        </div>
+                        A well-designed graph should reflect:
+                        <div class="example-box">
+                            <strong>For example:</strong>
+                            <ul style="margin-top: 10px; list-style: none; padding-left: 15px;">
+                                <li>• <strong>Hierarchy</strong> (e.g., Operator → Line → Route)</li>
+                                <li>• <strong>Network structure</strong> (e.g., Station ↔ Station via Route)</li>
+                                <li>• <strong>Movement</strong> (Trains moving along Routes)</li>
+                                <li>• <strong>Categories and grouping</strong> (Accessibility features)</li>
+                            </ul>
+                        </div>
+                        <div class="viz-card">
+                    <h3>This graph structure enables:</h3>
+                    <div class="viz-features">
+                        <ul>
+                            <li>Navigation algorithms</li>
+                            <li>Query optimisation</li>
+                            <li>Pathfinding</li>
+                            <li>Visualisation tools</li>
+                    </div>
+                </div>
+            </div>
+        </div>
+                       
+			<div class="summary-row">
+                                <div class="summary-term">7. Visualising the Ontology (during development)</div>
+                                <div class="summary-definition">
+                                    <p>Before implementing, visualisation helps ensure the ontology is correct and complete.</p>
+                                    <p><strong>Useful diagrams:</strong></p>
+                                    <div class="visualization-grid">
+                                        <div class="viz-card">
+                                            <h3><strong>1. Asset hierarchy diagram</strong></h3>
+                                                <div class="viz-features">
+                                                <ul>
+                                                    <li>Shows all asset types</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="viz-card">
+                                            <h3><strong>2. Relationship network</strong></h3>
+                                                <div class="viz-features">
+                                                <ul>
+                                                    <li>Repository-style diagram showing edges between entities.</li>
+                                                    <li>Helpful for verifying directions and completeness.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="viz-card">
+                                            <h3><strong>3. Sequence diagrams (for dynamic assets like trains)</strong></h3>
+                                                <div class="viz-features">
+                                                <ul>
+                                                    <li>Show how entities interact over time.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="viz-card">
+                                            <h3><strong>4. Map visualisation prototype</strong></h3>
+                                                <div class="viz-features">
+                                                <ul>
+                                                    <li>Use station coordinates to validate connectivity.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="example-box">
+                                        <strong>Visualisation early in development helps catch:</strong>
+                                        <ul style="margin-top: 10px; list-style: none; padding-left: 15px;">
+                                            <li>• Missing relationships</li>
+                                            <li>• Misinterpreted concepts</li>
+                                            <li>• Cycles where none should exist</li>
+                                            <li>• Redundant asset types</li>
+                                        </ul>
+                                    </div>
+                    </div>
+                </div>
+			    <div class="summary-row">
+                    <div class="summary-term">8. Validate the Ontology Design</div>
+                        <div class="summary-definition"><p>Before implementing, <strong>validate the model:</strong></p>
+                            <div class="visualization-grid">
+                                <div class="key-questions">
+                                    <p><strong>Structural validation</strong></p>
+                                    <ul>
+                                        <li>Does every relationship point to a real asset?</li>
+                                        <li>Are all property types legal in DTDL?</li>
+                                        <li>Are DTMI identifiers correct?</li>
+                                    </ul>
+                                </div>
+                                <div class="key-questions">
+                                    <p><strong>Semantic validation</strong></p>
+                                    <ul>
+                                        <li>Does the ontology reflect the real system?</li>
+                                        <li>Are all cardinalities respected?</li>
+                                        <li>Is there redundancy or ambiguity?</li>
+                                    </ul>
+                                </div>
+                                <div class="key-questions">
+                                    <p><strong>Semantic validation</strong></p>
+                                    <ul>
+                                        <li>Does the ontology reflect the real system?</li>
+                                        <li>Are all cardinalities respected?</li>
+                                        <li>Is there redundancy or ambiguity?</li>
+                                    </ul>
+                                </div>
+                                <div class="key-questions">
+                                    <p><strong>Graph validation</strong></p>
+                                    <ul>
+                                        <li>Simulate a few real-world cases:</li>
+                                        <li>Add example Station twins</li>
+                                        <li>Add a Route that references these stations</li>
+                                        <li>Add a Train instance serving the Route</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+			<div class="summary-row">
+                                <div class="summary-term">9. Iterate Based on Real Data and Use Cases</div>
+                                <div class="summary-definition"><p>Ontologies<strong>evolve.</strong></p>
+                                    <div class="example-box">
+                                        <strong>Once real data enters the system, you may discover:</strong>
+                                        <ul style="margin-top: 10px; list-style: none; padding-left: 15px;">
+                                            <li>• New properties are needed</li>
+                                            <li>• Better relationship patterns</li>
+                                            <li>• Additional asset types</li>
+                                            <li>• More constraints</li>
+                                        </ul>
+                                    </div>
+                                    <p>A good ontology <strong>handles extension without breaking existing structure.</strong></p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Menu 2 Sections -->
                 <div class="menu-container" id="menu2" style="display: none;">
                     <div class="section active" id="section1-m2">
-                        <h1>Data Acquisition - Introduction</h1>
-                        <p class="content-text">Content for Menu Item 2, Option 1.</p>
+                        <div class="section-intro">
+                            <p><strong>Data acquisition</strong> is the process of collecting, transforming, storing, and validating real-world data so it can be fed into a Digital Twin.</p>
+                            
+                        </div>
+                            <p><strong>Digital twins require:</strong></p>
+                        <div class="definition-grid">
+                            <div class="definition-card">
+                                <div class="icon">⏱️</div>
+                                <h3> Real-time updates</h3>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">🗂️</div>
+                                <h3> Historical context</h3>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">🧩</div>
+                                <h3> Consistent, ontology-aligned structure</h3>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">📈</div>
+                                <h3> Reliable time-series storage</h3>
+                            </div>
+                        </div>
+
+                        <div class="highlight">
+                            <h3>A typical data acquisition pipeline includes:</h3>
+                            <ul class="simple-list">
+                                <li>✔ Source systems</li>
+                                <li>✔ Sensors, APIs, IoT devices, operator systems</li>
+                                <li>✔ Data ingestion service</li>
+                                <li>✔ Polling, subscriptions, event streaming</li>
+                                <li>✔ Transformation / Normalisation</li>
+                                <li>✔ Mapping raw data → standardized model (the ontology)</li>
+                                <li>✔ Storage</li>
+                                <li>✔ Time-series DB, graph DB, or twin platform</li>
+                                <li>✔ Twin update</li>
+                                <li>✔ Updating the digital twin graph with cleaned data</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box">
+                            <h3>In the London Underground Example</h3>
+                            
+                            <div class="text-section">
+                                <p>For this example the data aquisition pipeline includes:</p>
+                            </div>
+                            <ul class="simple-list">
+                                <li><strong>Source system: </strong>TfL Unified API</li>
+                                <li><strong>Ingestion:</strong> Script/service fetching train arrival & line data</li>
+                                <li><strong>Transformation:</strong> Convert raw JSON → DTDL ontology structure</li>
+                                <li><strong>Storage:</strong> InfluxDB for time-series train telemetry</li>
+                                <li><strong>Twin update:</strong> Populate Train, Station, Line twins with validated data</li>
+                            </ul>
+                        
+                        <div class="viz-card">
+                            <h3>This pipeline ensures your digital twin reflects:</h3>
+                            <div class="viz-features">
+                                <ul>
+                                    <li>Live train arrival predictions</li>
+                                    <li>Station-level activity</li>
+                                    <li>Line performance</li>
+                                    <li>Route sequence</li>
+                                </ul>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                     </div>
 
                     <div class="section" id="section2-m2">
-                        <h1>Data Acquisition - Setup</h1>
-                        <p class="content-text">Content for Menu Item 2, Option 2.</p>
+                        <h1>Accessing External Data Sources</h1>
+                         <div class="validation-levels">
+                            <div class="validation-card">
+                                <div class="validation-number">1</div>
+                                <h3>Digital twins can acquire data from various sources:</h3>
+                                <ul class="simple-list">
+                                    <li>REST APIs</li>
+                                    <li>MQTT / IoT hubs</li>
+                                    <li>Websocket feeds</li>
+                                    <li>Industrial protocols (OPC-UA, Modbus)</li>
+                                    <li>CSV/Batch uploads</li>
+                                </ul>
+                            </div>
+
+                            <div class="validation-card">
+                                <div class="validation-number">2</div>
+                                <h3>Key considerations:</h3>
+                                <ul class="simple-list">
+                                    <li>Authentication</li>
+                                    <li>Rate limiting</li>
+                                    <li>Data freshness</li>
+                                    <li>Schema variability</li>
+                                    <li>Error handling</li>
+                                    <li>Scheduling of fetches</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <h3>In the London Underground Example</h3>
+                        
+                            <div class="asset-grid">
+                                <div class="asset-card">
+                                    <h4>The <strong> TfL Unified API</strong> is used. This is a public REST service that exposes:</h4>
+                                    <div class="asset-properties">
+                                        <ul>
+                                            <li>Line arrivals</li>
+                                            <li>Station metadata</li>
+                                            <li>Line disruptions</li>
+                                            <li>Route sequences</li>
+                                            <li>Timetables</li>
+                                            <li>Example endpoint used: /Line/{lineId}/Arrivals</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="asset-card">
+                                    <h4>The <strong>Raw data</strong> includes:</h4>
+                                    <div class="asset-properties">
+                                        <ul>
+                                            <li>station name</li>
+                                            <li>time to station</li>
+                                            <li>expected arrival time</li>
+                                            <li>line ID</li>
+                                            <li>vehicle (train) ID</li>
+                                            <li>timestamp</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="asset-card">
+                                    <h4>This <strong>data continually changes</strong>, so your ingestion service must:</h4>
+                                    <div class="asset-properties">
+                                        <ul>
+                                            <li>poll frequently (e.g., every 15–30 seconds)</li>
+                                            <li>remove duplicate events</li>
+                                            <li>handle API delays and missing data</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>     
                     </div>
 
                     <div class="section" id="section3-m2">
-                        <h1>Data Acquisition - Configuration</h1>
-                        <p class="content-text">Content for Menu Item 2, Option 3.</p>
-                    </div>
+                        <div class="section-intro">
+                            <p>Transformation is crucial because <strong>external data never matches your digital twin structure directly.</strong></p>
+                        </div>
+                        <div class="highlight">
+                            <h3>The transformation layer performs:</h3>
+                            <ul class="simple-list">
+                                <li>Mapping fields → ontology properties</li>
+                                <li>Adding semantic meaning</li>
+                                <li>Linking entities via relationships</li>
+                                <li>Type conversions</li>
+                                <li>ID normalization</li>
+                                <li>Enrichment (e.g., computing direction, deriving status)</li>
+                            </ul>
+                            <p>This step <strong>ensures</strong> the digital twin receives <strong>clean, structured, validated data</strong>.</p>
+                        </div>
+                        <div class="info-box">
+                            <h3>In the London Underground Example</h3>
+                            <div class="text-section">
+                                <p>TfL’s API is operational, not semantic. It provides raw transport telemetry, not digital-twin-ready entities.</p>
+                                <p>The ontology in this example defines assets such as Station, Route, Line, and Train.</p>
+                            </div>
+                            <div class="table-wrapper">
+                                <div class="summary-table-3col">
+                                    <div class="summary-row-3col table-header">
+                                        <div class="summary-cell">TFL Field</div>
+                                        <div class="summary-cell">Ontology Asset</div>
+                                        <div class="summary-cell">Ontology Property</div>
+                                    </div>
+                                    <div class="summary-row-3col">
+                                        <div class="summary-cell">vehicleId</div>
+                                        <div class="summary-cell">Train</div>
+                                        <div class="summary-cell">vehicleId</div>
+                                    </div>
+                                    <div class="summary-row-3col">
+                                        <div class="summary-cell">lineId</div>
+                                        <div class="summary-cell">Train</div>
+                                        <div class="summary-cell">lineId</div>
+                                    </div>
+                                    <div class="summary-row-3col">
+                                        <div class="summary-cell">timeToStation</div>
+                                        <div class="summary-cell">Train</div>
+                                        <div class="summary-cell">secondsToNextStop</div>
+                                    </div>
+                                    <div class="summary-row-3col">
+                                        <div class="summary-cell">expectedArrival</div>
+                                        <div class="summary-cell">Train</div>
+                                        <div class="summary-cell">expectedArrival</div>
+                                    </div>
+                                    <div class="summary-row-3col">
+                                        <div class="summary-cell">naptanId</div>
+                                        <div class="summary-cell">Station</div>
+                                        <div class="summary-cell">stationId</div>
+                                    </div>
+                                    <div class="summary-row-3col">
+                                        <div class="summary-cell">stationName</div>
+                                        <div class="summary-cell">Station</div>
+                                        <div class="summary-cell">name</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-section">
+                                <p>You can enrich this example further by</p>
+                                    <ul class="simple-list">
+                                        <li>Convert timeToStation from seconds → twin property</li>
+                                        <li>Lookup station coordinates from your Station ontology</li>
+                                        <li>Attach train to correct Route via station sequence</li>
+                                        <li>Infer direction from route orderings</li>
+                                        <li>Attach the train to the Line twin</li>
+                                    </ul>
+                            </div>
+                            <div class="text-section">
+                                <p>There are also Relationship updates</p>
+                                <div class="relationship-grid">
+                                    <div class="relationship-card">
+                                        <div class="rel-label">Train →</div>
+                                        <div class="rel-name">servesRoute</div>
+                                        <div class="rel-label">→ Route</div>
+                                    </div>
 
+                                    <div class="relationship-card">
+                                        <div class="rel-label">Station →</div>
+                                        <div class="rel-name">servedByLine</div>
+                                        <div class="rel-label">→ Line</div>
+                                    </div>
+
+                                    <div class="relationship-card">
+                                        <div class="rel-label">Route →</div>
+                                        <div class="rel-name">onLine</div>
+                                        <div class="rel-label">→ Line</div>
+                                    </div>
+
+                                    <div class="relationship-card">
+                                        <div class="rel-label">Train →</div>
+                                        <div class="rel-name">nextStationId</div>
+                                        <div class="rel-label">→ Station</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="section" id="section4-m2">
-                        <h1>Data Acquisition - Troubleshooting</h1>
-                        <p class="content-text">Content for Menu Item 2, Option 4.</p>
-                    </div>
-                </div>
+                        <h1>Storing Real-Time and Historical Data</h1>
+                        <div class="intro-box">
+                            <h3>Digital Twins must support <strong>real-time state AND historical analysis</strong>.</h3>
+                            <p>Common tools used for data storage include <strong>InfluxDB, TimescaleDB, and Azure Data Explorer</strong>.</p>
+                        </div>
+                        <p>Two main storage patterns:</p>
 
+                        <div class="validation-levels">
+                            <div class="validation-card">
+                                <div class="validation-number">1</div>
+                                <h3>Graph storage</h3>
+                                <ul class="simple-list">
+                                    <li>Stores the digital twin entities and relationships</li>
+                                    <li>Optimised for querying structure (“which trains serve Route X?”)</li>
+                                </ul>
+                            </div>
+
+                            <div class="validation-card">
+                                <div class="validation-number">2</div>
+                                <h3>Time-series storage</h3>
+                                <ul class="simple-list">
+                                    <li>Stores changing telemetry</li>
+                                    <li>Optimised for historical analytics (“delays over last 24 hours”)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="highlight">
+                            <h3>Key considerations:</h3>
+                            <ul class="simple-list">
+                                <li>retention policies</li>
+                                <li>indexing</li>
+                                <li>handling out-of-order data</li>
+                                <li>writing frequency</li>
+                                <li>tagging strategy</li>
+                            </ul>
+                        </div>
+                        <div class="info-box">
+                            <h3>In the London Underground Example</h3>
+                            <div class="text-section">
+                                <p>Our example uses InfluxDB to store the data as train arrivals and positions are time-dependent and arrive frequently.</p>
+                                <p>An example of an InfluxDB measurement using our data source could be:</p>
+                                <p><strong>measurement:</strong>train_status</p>
+                            </div>
+                            <div class="asset-grid">
+                                <div class="asset-card">
+                                        <h4>tags</h4>
+                                        <div class="asset-properties">
+                                            <ul>
+                                                <li>lineId</li>
+                                                <li>vehicleId</li>
+                                                <li>nextStationId</li>
+                                            </ul>
+                                        </div>
+                                        <h4>fields</h4>
+                                        <div class="asset-properties">
+                                            <ul>
+                                                <li>secondsToNextStop</li>
+                                                <li>expectedArrival</li>
+                                                <li>direction</li>
+                                                <li>timestamp</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="asset-card">
+                                        <h4>You store:</h4>
+                                        <div class="asset-properties">
+                                            <ul>
+                                                <li>raw API snapshots</li>
+                                                <li>derived direction</li>
+                                                <li>cleaned “secondsToNextStop” fields</li>
+                                                <li>prediction deltas</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="asset-card">
+                                        <h4>This enables queries such as:</h4>
+                                        <div class="asset-properties">
+                                            <ul>
+                                                <li>“Show delays on the Central line today”</li>
+                                                <li>“Plot train dwell times at King’s Cross”</li>
+                                                <li>“Compare predicted vs actual arrival time”</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section" id="section5-m2">
+                            <h2>✔ Data validation ensures the twin does not ingest incorrect or inconsistent information.</h2>
+                            <p>Key validation types:</p>
+
+                            <div class="validation-levels">
+                                <div class="validation-card">
+                                    <div class="validation-number">1</div>
+                                    <h3>Schema validation</h3>
+                                    <ul class="simple-list">
+                                        <li>property types</li>
+                                        <li>required fields</li>
+                                        <li>cardinality</li>
+                                    </ul>
+                                </div>
+
+                                <div class="validation-card">
+                                    <div class="validation-number">2</div>
+                                    <h3>Semantic Validation</h3>
+                                    <ul class="simple-list">
+                                        <li>IDs must map to existing assets</li>
+                                        <li>relationships must be valid</li>
+                                        <li>values must be within expected ranges</li>
+                                    </ul>
+                                </div>
+
+                                <div class="validation-card">
+                                    <div class="validation-number">3</div>
+                                    <h3>Temporal validation</h3>
+                                    <ul class="simple-list">
+                                        <li>timestamps must be ordered</li>
+                                        <li>prediction times must be in the future</li>
+                                        <li>stale data should be discarded</li>
+                                    </ul>
+                                </div>
+
+                                <div class="validation-card">
+                                    <div class="validation-number">4</div>
+                                    <h3>Business logic validation</h3>
+                                    <ul class="simple-list">
+                                        <li>measurement cannot be negative</li>
+                                        <li>vehicle direction must match route</li>
+                                        <li>entity must belong to the correct line</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="info-box">
+                                <h3>In the London Underground Example</h3>
+                                <div class="text-section">
+                                    <p>TfL API issues can include:</p>
+                                    <ul class="simple-list">
+                                        <li>missing timeToStation</li>
+                                        <li>inconsistent timestamps</li>
+                                        <li>duplicate entries</li>
+                                        <li>trains appearing outside of known routes</li>
+                                    </ul>
+                                </div>
+                                <p>Validation steps:</p>
+
+                                <div class="validation-levels">
+                                    <div class="validation-card">
+                                        <div class="validation-number">1</div>
+                                        <h3>Schema Rules</h3>
+                                        <ul class="simple-list">
+                                            <li>vehicleId, lineId, naptanId must be strings</li>
+                                            <li>timeToStation must be ≥ 0</li>
+                                            <li>timestamps must be ISO 8601</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="validation-card">
+                                        <div class="validation-number">2</div>
+                                        <h3>Semantic Rules</h3>
+                                        <ul class="simple-list">
+                                            <li>naptanId must match a Station twin</li>
+                                            <li>lineId must match a Line twin</li>
+                                            <li>vehicleId must be stable over time</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="validation-card">
+                                        <div class="validation-number">3</div>
+                                        <h3>Route Validation</h3>
+                                        <ul class="simple-list">
+                                            <li>Next station must be in the known station sequence</li>
+                                            <li>Order must align with inferred direction</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                Once data passes validation, it is safe to:
+                                <ul class="simple-list">
+                                    <li>✔ update Train entities in the digital twin</li>
+                                    <li>✔ update Station status</li>
+                                    <li>✔ compute performance metrics</li>
+                                    <li>✔ trigger alerts</li>
+                                </ul>
+                            </div>
+                        </div>
                 <!-- Menu 3 Sections -->
                 <div class="menu-container" id="menu3" style="display: none;">
-                    <div class="section active" id="section1-m3">
-                        <h1>Visualisation - Chapter 1</h1>
-                        <p class="content-text">Content for Menu Item 3, Option 1.</p>
+                     <div class="section active" id="section1-m3">
+                        <div class="section-intro">
+                            <p><strong>Visualisation</strong> is essential for Digital Twin systems because it allows:</p>
+                            
+                        </div>
+                            <p><strong>Digital twins require:</strong></p>
+                        <div class="definition-grid">
+                            <div class="definition-card">
+                                <div class="icon">💡</div>
+                                <h3>Understanding</h3>
+                                <p>Understand complex relationships between assets</p>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">🔎</div>
+                                <h3> Dectection</h3>
+                                <p>Detect anomalies or unexpected behaviours</p>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">📊</div>
+                                <h3> Monitoring</h3>
+                                <p>Monitor real-time state changes</p>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">🗣️</div>
+                                <h3>Communcation</h3>
+                                <p>Communicate system behaviour to stakeholders</p>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">🤝</div>
+                                <h3>Support</h3>
+                                <p>Support decision-making with intuitive visuals</p>
+                            </div>
+                        </div>
+                        <div class="highlight">
+                            <h3>Common visualisation categories include:</h3>
+                            <ul class="simple-list">
+                                <li><strong>Graph visualisation</strong> (topology, relationships)</li>
+                                <li><strong>Time-series dashboards</strong> (historical performance)</li>
+                                <li><strong>Geospatial visualisation</strong> (real-world position and movement)</li>
+                                <li><strong>3D twin rendering</strong> (for buildings, factories, transportation hubs)</li>
+                            </ul>
+                        </div>
+                        <div class="info-box">
+                            <h3>In the London Underground Example</h3>
+                            <div class="text-section">
+                                <p>In the example project, visualisation brings the Underground Digital Twin to life by showing:</p>
+                                <ul class="simple-list">
+                                    <li>Stations and routes connected as a graph <strong>(Neo4j)</strong></li>
+                                    <li>Historical train movement as time-series charts <strong>(InfluxDB dashboards)</strong></li>
+                                    <li>Live moving trains over a London map <strong>(Python animation script)</strong></li>
+                                    <li>trains appearing outside of known routes</li>
+                                </ul>
+                            </div>
+                            <p>These three visual layers let users see both:</p>
+                            <ul class="simple-list">
+                                <li>System <strong>structure</strong> (stations, lines, routes)</li>
+                                <li>System <strong>state</strong> (arrivals, movement, delays)</li>
+                                <li>System <strong>behaviour</strong> over time</li>
+                            </ul>
+                        </div>
                     </div>
-
                     <div class="section" id="section2-m3">
-                        <h1>Visualisation - Chapter 2</h1>
-                        <p class="content-text">Content for Menu Item 3, Option 2.</p>
+                        <h1>Graph Visualisation - Knowledge Graph</h1>
+                        <div class="intro-box">
+                            <h3>What can I see in Visualisation Displays?</h3>
+                            <p>• Assets as <strong>nodes</strong></p>
+                            <p>• Relationships as <strong>edges</strong></p>
+                            <p>  </p>
+                            <h4>This is ideal when your ontology forms a network of interconnected entities.</h4>
+                        </div>
+                        <div class="key-questions">
+                            <p><strong>Graph visualisation helps answer:</strong></p>
+                            <ul>
+                                <li>What assets exist?</li>
+                                <li>How are they connected?</li>
+                                <li>Where are the most important hubs?</li>
+                                <li>Are any required relationships missing?</li>
+                            </ul>
+                        </div>
+                        <div class="highlight">
+                            <h3>Tools commonly used:</h3>
+                            <ul class="simple-list">
+                                <li>• Neo4j Browser</li>
+                                <li>• Neo4j Bloom</li>
+                                <li>• GraphViz</li>
+                                <li>• Azure DT Explorer</li>
+                                <li>• NetworkX (Python)</li>
+                                <li>• TigerGraph</li>
+                            </ul>
+                        </div>
+                        <div class="highlight">
+                            <h3>Benefits:</h3>
+                            <ul class="simple-list">
+                                <li>✔ Excellent for topology and dependency mapping</li>
+                                <li>✔ Makes ontology structure easy to understand</li>
+                                <li>✔ Shows relationship errors or loops instantly</li>
+                            </ul>
+                        </div>
+                         <div class="info-box">
+                            <div class="text-section">
+                                <h3>In the London Underground Example</h3>
+                                <p>In the example project, the ontology naturally forms a <strong>transportation knowledge graph.</strong>:</p>
+                            </div>
+                            <div class="asset-grid">
+                                <div class="asset-card">
+                                    <h4>Nodes:</h4>
+                                    <div class="asset-properties">
+                                        <ul>
+                                            <li>Stations</li>
+                                            <li>Lines</li>
+                                            <li>Routes</li>
+                                            <li>Trains</li>
+                                            <li>Accessibility features</li>
+                                            <li>Operators</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="asset-card">
+                                    <h4>Relationships:</h4>
+                                    <div class="asset-properties">
+                                        <ul>
+                                            <li>Station → servedByLine → Line</li>
+                                            <li>Route → onLine → Line</li>
+                                            <li>Train → servesRoute → Route</li>
+                                            <li>Station → startingStation → Route</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="asset-card">
+                                    <h4>Visualisation in Neo4j:</h4>
+                                    <div class="asset-properties">
+                                        <ul>
+                                            <li>Stations appear as blue dots</li>
+                                            <li>Lines as red nodes</li>
+                                            <li>Trains as moving or updated entities</li>
+                                            <li>Route sequences visible as chains of stations</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>This makes it easy to inspect:</p>
+                            <ul class="simple-list">
+                                <li>• Which lines serve which stations</li>
+                                <li>• Route layout</li>
+                                <li>• Train associations</li>
+                                <li>• Missing or incorrect edges</li>
+                                <li>• Ontology completeness</li>
+                            </ul>
+                            <p>Graph visualisation validates both <strong>data quality and ontology design</strong>.</p>
+                        </div>     
                     </div>
 
                     <div class="section" id="section3-m3">
-                        <h1>Visualisation - Chapter 3</h1>
-                        <p class="content-text">Content for Menu Item 3, Option 3.</p>
+                        <h1>Time-Series Dashboards</h1>
+                        <div class="intro-box">
+                            <h3>What can I see in Time-Series Visualisations?</h3>
+                            <p>• Performance</p>
+                            <p>• Telemetry</p>
+                            <p>• Operational metrics</p>
+                            <p>• Sensor drift</p>
+                            <p>• Predictive analytics</p>
+                        </div>
+                        <div class="highlight">
+                            <h3>Tools commonly used:</h3>
+                            <ul class="simple-list">
+                                <li>• <strong>InfluxDB UI</strong></li>
+                                <li>• <strong>Grafana</strong></li>
+                                <li>• <strong>TimescaleDB dashboards</strong></li>
+                            </ul>
+                            <h3>Typical chart types:</h3>
+                            <ul class="simple-list">
+                                <li>• <strong>Line charts</strong> (train delays over time)</li>
+                                <li>• <strong>Histograms</strong> (distribution of dwell times)</li>
+                                <li>• <strong>Heatmaps</strong> (usage span across day)</li>
+                                <li>• <strong>Bar charts</strong> (counts, averages)</li>
+                            </ul>
+                        </div>
+                        <div class="highlight">
+                            <h3>Benefits:</h3>
+                            <ul class="simple-list">
+                                <li>✔ Detect trends and cycles</li>
+                                <li>✔ Validate predictive models</li>
+                                <li>✔ Compare predicted vs actual state</li>
+                                <li>✔ Identify degradation or anomalies</li>
+                            </ul>
+                        </div>
+                        <div class="info-box">
+                            <div class="text-section">
+                                <h3>In the London Underground Example</h3>
+                                <p>With InfluxDB you track real-time and historical Underground performance:</p>
+                            </div>
+                            <h4>Examples of dashboard charts:</h4>
+                            <div class="visualization-grid">
+                                <div class="viz-card">
+                                    <h3><strong>1. Train delay over time</strong></h3>
+                                        <div class="viz-features">
+                                        <ul>
+                                            <li>Using secondsToNextStop and predicted vs real arrival</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="viz-card">
+                                    <h3><strong>2. Platform congestion estimation</strong></h3>
+                                        <div class="viz-features">
+                                        <ul>
+                                            <li>Derived indirectly through train arrivals</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="viz-card">
+                                    <h3><strong>3. Line status trends</strong></h3>
+                                        <div class="viz-features">
+                                        <ul>
+                                            <li>Calculated from disruptions or dwell times</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="viz-card">
+                                    <h3><strong>4. Most delayed stations</strong></h3>
+                                        <div class="viz-features">
+                                        <ul>
+                                            <li>Aggregated by nextStationId</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-section">
+                                <h4>Key insights:</h4>
+                                <p>• Central Line delays during peak hours</p>
+                                <p>• How actual arrival compares to expectedArrival</p>
+                                <p>• Traffic waves across the network</p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="section" id="section4-m3">
-                        <h1>Visualisation - Chapter 4</h1>
-                        <p class="content-text">Content for Menu Item 3, Option 4.</p>
+                        <div class="intro-box">
+                            <h3>What is Geospatial Visualisation?</h3>
+                            <p>Geospatial visualisation anchors the twin to the real world.</p>
+                            <p>Useful for systems with physical movement:</p>
+                            <p>• Rail</p>
+                            <p>• Logistics</p>
+                            <p>• Vehicles</p>
+                            <p>• Drones</p>
+                            <p>• Utilities</p>
+                            <p>• Shipping</p>
+                        </div>
+                        <div class="highlight">
+                            <h3>Tools commonly used:</h3>
+                            <ul class="simple-list">
+                                <li>• <strong>Leaflet.js</strong></li>
+                                <li>• <strong>Mapbox</strong></li>
+                                <li>• <strong>Google Maps API</strong></li>
+                                <li>• <strong>Folium (Python)</strong></li>
+                                <li>• <strong>Kepler.gl</strong></li>
+                                <li>• <strong>Custom Python animations</strong></li>
+                            </ul>
+                            <h3>What geospatial views show:</h3>
+                            <ul class="simple-list">
+                                <li>• <strong>Real-time position</strong></li>
+                                <li>• <strong>Movement paths</strong></li>
+                                <li>• <strong>Speed/heading</strong></li>
+                                <li>• <strong>Clusters or bottlenecks</strong></li>
+                                <li>• <strong>Network coverage</strong></li>
+                            </ul>
+                        </div>
+                        <div class="highlight">
+                            <h3>Benefits:</h3>
+                            <ul class="simple-list">
+                                <li>✔ Especially intuitive for users</li>
+                                <li>✔ Matches physical reality</li>
+                                <li>✔ Ideal for demonstrating live behaviour</li>
+                            </ul>
+                        </div>
+                        <div class="info-box">
+                            <div class="text-section">
+                                <h3>In the London Underground Example</h3>
+                                <p>In the example project, we can create a Python script that renders a <strong>real-time animated map</strong>:</p>
+                            </div>
+                            <ul class="simple-list">
+                                <li>Entire London map in background</li>
+                                <li>Stations plotted by latitude/longitude</li>
+                                <li>Trains represented as dots</li>
+                                <li>Dots move between stations according to secondsToNextStop, nextStationId, and current position</li>
+                                <li>Movement interpolated between station coordinates</li>
+                            </ul>
+                             <div class="text-section">
+                                <p>This produces a <strong>living, animated twin</strong> of the train network—much more powerful than static dashboards.</p>
+                                <p>It enables users to see:</p>
+                                <ul class="simple-list">
+                                <li>Train density</li>
+                                <li>Delays</li>
+                                <li>Line speed</li>
+                                <li>Where gaps in service appear</li>
+                                <li>Congestion waves (e.g., during rush hour)</li>
+                            </ul>
+                            </div>
+                        </div> 
                     </div>
+                    <div class="section" id="section5-m3">
+                        <div class="section-intro">
+                            <p>A robust Digital Twin typically uses <strong>multiple visualisation layers</strong>, because no single view tells the whole story.</p>
+                            
+                        </div>
+                            <p><strong>Digital twins require:</strong></p>
+                        <div class="definition-grid">
+                            <div class="definition-card">
+                                <div class="icon">📈</div>
+                                <h3>Graph view</h3>
+                                <p>structure and relationships</p>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">🧩📊</div>
+                                <h3> Dashboard view</h3>
+                                <p>system behaviour over times</p>
+                            </div>
+                            <div class="definition-card">
+                                <div class="icon">📍</div>
+                                <h3> Geospatial view</h3>
+                                <p>physical reality</p>
+                            </div>
+                        </div>
+                        <div class="highlight">
+                            <h3>Benefits of multi-layered visualisation:</h3>
+                            <ul class="simple-list">
+                                <li>✔ Complete situational awareness</li>
+                                <li>✔ Easier debugging and auditing</li>
+                                <li>✔ Better validation of the ontology</li>
+                                <li>✔ Support for operational, planning, and analytical use cases</li>
+                                <li>✔ Cross-verification of data accuracy</li>
+                            </ul>
+                        </div>
+                        <div class="info-box">
+                            <div class="text-section">
+                                <h3>In the London Underground Example</h3>
+                                <p>In the example project, we can leverage all 3 visualisation types:</p>
+                            </div>
+                            <div class="validation-levels">
+                            <div class="validation-card">
+                                <div class="validation-number">1</div>
+                                <h3>Neo4j Knowledge Graph</h3>
+                                <ul class="simple-list">
+                                    <li>Shows the entire transport ontology</li>
+                                    <li>Reveals station → line → route → train relationships</li>
+                                    <li>Highlights missing or incorrect connections</li>
+                                </ul>
+                            </div>
+
+                            <div class="validation-card">
+                                <div class="validation-number">2</div>
+                                <h3>InfluxDB / Grafana Dashboards</h3>
+                                <ul class="simple-list">
+                                    <li>Displays real-time train performance</li>
+                                    <li>Tracks delays, dwell times, service patterns</li>
+                                    <li>Supports historical analysis</li>
+                                </ul>
+                            </div>
+
+                            <div class="validation-card">
+                                <div class="validation-number">3</div>
+                                <h3>Python Geospatial Animation</h3>
+                                <ul class="simple-list">
+                                    <li>Shows trains moving live across London</li>
+                                    <li>Reflects disruptions in real time</li>
+                                    <li>Connects data to real geography</li>
+                                </ul>
+                            </div>
+                        </div>
                 </div>
 
                 <!-- Menu 4 Sections -->
@@ -1120,9 +2362,9 @@
 
         const menuLabels = {
             menu1: ['Ontologies', 'Assets', 'Relationships', 'Visualisation', 'Validation', 'Summary'],
-            menu2: ['Introduction', 'Setup', 'Configuration', 'Troubleshooting'],
-            menu3: ['Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4'],
-            menu4: ['Foundation', 'Development', 'Deployment', 'Maintenance']
+            menu2: ['Introduction', 'Accessing Data From External Sources', 'Data Transformation', 'Data Storage', 'Validating Data'],
+            menu3: ['Why Visualisation Matters', 'Graph Visualisation', 'Time-Series Dashboard', 'Geospatial & Live Movement Visualisation', 'Combining Visualisation Layers'],
+            menu4: ['Example 1', 'Example 2', 'Example 3', 'Example 4']
         };
 
         function updateTopNavLabels(menu) {
@@ -1154,7 +2396,7 @@
                     item.classList.add('active');
 
                     const sectionNum = index + 1;
-                    const menuSuffix = currentMenu === 'menu1' ? '' : '-' + currentMenu.slice(-1);
+                    const menuSuffix = currentMenu === 'menu1' ? '' : '-m' + currentMenu.slice(-1);
                     const sectionId = 'section' + sectionNum + menuSuffix;
 
                     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1193,7 +2435,7 @@
                 const topItems = document.querySelectorAll('.top-item');
                 topItems[0].classList.add('active');
                 
-                const menuSuffix = currentMenu === 'menu1' ? '' : '-' + currentMenu.slice(-1);
+                const menuSuffix = currentMenu === 'menu1' ? '' : '-m' + currentMenu.slice(-1);
                 document.getElementById('section1' + menuSuffix).classList.add('active');
             });
         });
