@@ -121,6 +121,9 @@
             right: 0;
             flex-wrap: wrap;
         }
+        .top-nav.hidden {
+            display: none !important;
+        }
 
         .top-nav a {
             flex: 1;
@@ -897,6 +900,9 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cypher.min.js"></script>
 </head>
 <body>
     <!-- Header - Full Width -->
@@ -908,6 +914,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <ul class="sidebar-menu">
+            <li><a href="#" class="menu-item" data-menu="intro">Introduction</a></li>
             <li><a href="#" class="menu-item" data-menu="menu1">Ontologies</a></li>
             <li><a href="#" class="menu-item" data-menu="menu2">Data Acquisition</a></li>
             <li><a href="#" class="menu-item" data-menu="menu3">Visualisation</a></li>
@@ -919,18 +926,40 @@
     <div class="main-wrapper">
         <!-- Top navigation -->
         <nav class="top-nav" id="topNav">
-            <a href="#" class="top-item" data-index="0">Option 1</a>
-            <a href="#" class="top-item" data-index="1">Option 2</a>
-            <a href="#" class="top-item" data-index="2">Option 3</a>
-            <a href="#" class="top-item" data-index="3">Option 4</a>
         </nav>
 
         <!-- Content area -->
         <div class="content">
             <div class="content-box">
+                <!-- Introduction Section -->
+               <div class="menu-container active" id="intro">
+                    <div class="section active">
+                        <h1>Welcome</h1>
+                        <p class="content-text">
+This tutorial introduces the full workflow for creating a modern Digital Twin (DT) system—starting from conceptual modelling and ending with live, data-driven visualisations and queries.
+We will use the London Underground as an end-to-end example, demonstrating how trains, routes, stations, and real-time data can be represented, ingested, visualised, and queried.
+You will learn not only what to do, but why each step matters, and how all the components connect to form a coherent digital twin pipeline.</p>
+                        
+                        <div class="highlight">
+                            <h3>📘 What You Will Learn</h3>
+                            <p><strong>1. Ontologies: The Structure Behind the Digital Twin</strong></p>
+                            <p>You’ll learn what an ontology is, why it matters, and how to model key assets such as stations, trains, lines, and routes. We use a sample ontology to show how assets and relationships form the foundation of a consistent and scalable digital twin.</p>
+                            <p><strong>2. Data Acquisition: Connecting to the Real World</strong></p>
+                            <p>This section shows how real-time information is collected, transformed, and stored. Using the TfL API and InfluxDB, you’ll learn how to pull train movement data and align it with the ontology.</p>
+                            <p><strong>3. Visualisation: Seeing the Digital Twin in Action</strong></p>
+                            <p>You’ll explore several ways to visualise the system:</p>
+                            <p>Knowledge graph (Neo4j) to see structural relationships</p>
+                            <p>InfluxDB dashboards for time-series metrics</p>
+                            <p>Python map visualisation for live train movement</p>
+                            <p>This shows different perspectives on the same dataset.</p>
+                            <p><strong>4. Queries and Analytics: Extracting Insight</strong></p>
+                            <p>Finally, you will run example queries across graph, time-series, and Python environments. These highlight how to answer real operational questions—for example, slow segments, delays, or unusual train behaviour.</p>
+                        </div>
+                    </div>
+                </div>
                 <!-- Menu 1 Sections -->
                 <div class="menu-container" id="menu1">
-                    <div class="section active" id="section1">
+                    <div class="section" id="section1">
                         <h1>Overview</h1>
                         
                         <div class="section-intro">
@@ -1529,9 +1558,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="menu-container" id="menu2" style="display: none;">
-                    <div class="section active" id="section1-m2">
+                <!-- Menu 2 Sections -->
+                <div class="menu-container" id="menu2">
+                    <div class="section" id="section1-m2">
                         <div class="section-intro">
                             <p><strong>Data acquisition</strong> is the process of collecting, transforming, storing, and validating real-world data so it can be fed into a Digital Twin.</p>
                             
@@ -1599,7 +1628,7 @@
                         </div>
                         </div>
                     </div>
-                    </div>
+
 
                     <div class="section" id="section2-m2">
                         <h1>Accessing External Data Sources</h1>
@@ -1959,9 +1988,10 @@
                                 </ul>
                             </div>
                         </div>
+                </div>
                 <!-- Menu 3 Sections -->
-                <div class="menu-container" id="menu3" style="display: none;">
-                     <div class="section active" id="section1-m3">
+                <div class="menu-container" id="menu3">
+                     <div class="section" id="section1-m3">
                         <div class="section-intro">
                             <p><strong>Visualisation</strong> is essential for Digital Twin systems because it allows:</p>
                             
@@ -2299,82 +2329,403 @@
                                 <p>In the example project, we can leverage all 3 visualisation types:</p>
                             </div>
                             <div class="validation-levels">
-                            <div class="validation-card">
-                                <div class="validation-number">1</div>
-                                <h3>Neo4j Knowledge Graph</h3>
-                                <ul class="simple-list">
-                                    <li>Shows the entire transport ontology</li>
-                                    <li>Reveals station → line → route → train relationships</li>
-                                    <li>Highlights missing or incorrect connections</li>
-                                </ul>
-                            </div>
+                                <div class="validation-card">
+                                    <div class="validation-number">1</div>
+                                    <h3>Neo4j Knowledge Graph</h3>
+                                    <ul class="simple-list">
+                                        <li>Shows the entire transport ontology</li>
+                                        <li>Reveals station → line → route → train relationships</li>
+                                        <li>Highlights missing or incorrect connections</li>
+                                    </ul>
+                                </div>
 
                             <div class="validation-card">
                                 <div class="validation-number">2</div>
-                                <h3>InfluxDB / Grafana Dashboards</h3>
-                                <ul class="simple-list">
-                                    <li>Displays real-time train performance</li>
-                                    <li>Tracks delays, dwell times, service patterns</li>
-                                    <li>Supports historical analysis</li>
-                                </ul>
-                            </div>
+                                    <h3>InfluxDB / Grafana Dashboards</h3>
+                                    <ul class="simple-list">
+                                        <li>Displays real-time train performance</li>
+                                        <li>Tracks delays, dwell times, service patterns</li>
+                                        <li>Supports historical analysis</li>
+                                    </ul>
+                                </div>
 
                             <div class="validation-card">
                                 <div class="validation-number">3</div>
-                                <h3>Python Geospatial Animation</h3>
-                                <ul class="simple-list">
-                                    <li>Shows trains moving live across London</li>
-                                    <li>Reflects disruptions in real time</li>
-                                    <li>Connects data to real geography</li>
-                                </ul>
-                            </div>
+                                    <h3>Python Geospatial Animation</h3>
+                                    <ul class="simple-list">
+                                        <li>Shows trains moving live across London</li>
+                                        <li>Reflects disruptions in real time</li>
+                                        <li>Connects data to real geography</li>
+                                    </ul>
+                                </div>
+                             </div>
                         </div>
+                    </div>
                 </div>
-
                 <!-- Menu 4 Sections -->
-                <div class="menu-container" id="menu4" style="display: none;">
-                    <div class="section active" id="section1-m4">
-                        <h1>Queries - Foundation</h1>
-                        <p class="content-text">Content for Menu Item 4, Option 1.</p>
+                <div class="menu-container" id="menu4">
+                    <div class="section" id="section1-m4">
+                        <div class="section-intro">
+                            <p>In a digital twin graph database, queries help you explore asset relationships and network topology. Typical query categories include:</p>
+                        
+                            <ul class="simple-list">
+                                    <li>Finding connected assets</li>
+                                    <li>Tracing relationships between entities</li>
+                                    <li>Verifying the ontology structure</li>
+                                    <li>Identifying gaps or inconsistencies</li>
+                                    <li>Discovering paths through the system</li>
+                            </ul>
+                            <p>Graph queries are ideal for answering structural questions.</p>
+                        </div>
+                        <div class="info-box">
+                            <div class="text-section">
+                                <h3>In the London Underground Example</h3>
+                                <p>1️⃣ Find all stations served by a specific line</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    cypher
+
+                                    CREATE (a:Person {name: 'Alice'})
+                                    CREATE (b:Person {name: 'Bob'})
+                                    CREATE (a)-[:KNOWS]->(b)
+                                    RETURN a, b;
+                                </code>
+                            </pre>
+                            <div class="text-section">
+                                <p>2️⃣ Show the route sequence for a given Route</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    cypher 
+
+                                    MATCH (r:Route {routeId: "central-eastbound"})
+                                    RETURN r.stationSequence;
+                                </code>
+                            </pre>
+                            <div class="text-section">
+                                <p>3️⃣ Find all trains currently associated with a specific route</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    cypher
+
+                                    MATCH (t:Train)-[:servesRoute]->(r:Route {routeId: "central-eastbound"})
+                                    RETURN t.vehicleId, t.expectedArrival, t.nextStationName;
+                                </code>
+                            </pre>
+                            <div class="text-section">
+                                <p>4️⃣ Validate that all stations have a line relationship</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    cypher
+
+                                    MATCH (s:Station)
+                                    WHERE NOT (s)-[:servedByLine]->(:Line)
+                                    RETURN s;
+                                </code>
+                            </pre>
+                        </div>
                     </div>
 
                     <div class="section" id="section2-m4">
-                        <h1>Queries - Development</h1>
-                        <p class="content-text">Content for Menu Item 4, Option 2.</p>
+                        <div class="section-intro">
+                            <p>Time-series queries analyse system behaviour over time:</p>
+                        
+                            <ul class="simple-list">
+                                    <li>Trends</li>
+                                    <li>Performance</li>
+                                    <li>Delay patterns</li>
+                                    <li>Movement</li>
+                                    <li>Predictions vs actuals</li>
+                            </ul>
+                            <p>These help validate telemetry and support analytics.</p>
+                        </div>
+                        <div class="info-box">
+                            <div class="text-section">
+                                <h3>In the London Underground Example</h3>
+                                <p>1️⃣ Get the last known update for each train</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    flux 
+
+                                    from(bucket: "underground")
+                                        |> range(start: -10m)
+                                        |> filter(fn: (r) => r._measurement == "train_status")
+                                        |> group(columns: ["vehicleId"])
+                                        |> last()
+                                </code>
+                            </pre>
+                            <div class="text-section">
+                                <p>2️⃣ Plot delays for a specific line over time</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    flux 
+
+                                    from(bucket: "underground")
+                                        |> range(start: -2h)
+                                        |> filter(fn: (r) => r.lineId == "central")
+                                        |> filter(fn: (r) => r._field == "secondsToNextStop")
+                                </code>
+                            </pre>
+                            <div class="text-section">
+                                <p>3️⃣ Get busiest stations (most train arrivals)</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    flux 
+
+                                    from(bucket: "underground")
+                                        |> range(start: -24h)
+                                        |> filter(fn: (r) => r._field == "secondsToNextStop")
+                                        |> aggregateWindow(every: 5m, fn: count)
+                                        |> group(columns: ["nextStationId"])
+                                    |> sum(column: "_value")
+                                </code>
+                            </pre>
+                            <div class="text-section">
+                                <p>4️⃣ Compare predicted vs actual arrival times</p>
+                                <p>(Assuming you store actual arrival events)</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    flux
+
+                                    // Predicted
+                                    predicted = from(bucket: "underground")
+                                    |> range(start: -1h)
+                                    |> filter(fn: (r) => r._field == "expectedArrival")
+
+                                    // Actual
+                                    actual = from(bucket: "underground")
+                                    |> range(start: -1h)
+                                    |> filter(fn: (r) => r._field == "actualArrival")
+
+                                    join(
+                                    tables: {predicted: predicted, actual: actual},
+                                    on: ["vehicleId", "nextStationId"]
+                                    )
+                                </code>
+                            </pre>
+                        </div>
                     </div>
 
                     <div class="section" id="section3-m4">
-                        <h1>Queries - Deployment</h1>
-                        <p class="content-text">Content for Menu Item 4, Option 3.</p>
-                    </div>
+                        <div class="section-intro">
+                            <p>Geospatial queries focus on:</p>
+                        
+                            <ul class="simple-list">
+                                    <li>Real-time positions</li>
+                                    <li>Movement interpolation</li>
+                                    <li>Nearest-neighbour queries</li>
+                                    <li>Distance calculations</li>
+                                    <li>Predicting future locations</li>
+                            </ul>
+                            <p>These power visual layers such as maps or animated dashboards.</p>
+                        </div>
+                        <div class="info-box">
+                            <div class="text-section">
+                                <h3>In the London Underground Example</h3>
+                                <p>1️⃣ Get the current position of all trains</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    python (Using SQL)
 
-                    <div class="section" id="section4-m4">
-                        <h1>Queries - Maintenance</h1>
-                        <p class="content-text">Content for Menu Item 4, Option 4.</p>
+                                    query = """
+                                    MATCH (t:Train)
+                                    RETURN t.vehicleId AS id, 
+                                        t.nextStationId AS stationId,
+                                        t.secondsToNextStop AS eta,
+                                        t.timestamp AS ts
+                                    """
+                                </code>
+                            </pre>
+                            <div class="text-section">
+                                <p>2️⃣ Calculate the interpolated position between two stations</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    python
+
+                                    def interpolate_position(lat1, lon1, lat2, lon2, progress):
+                                        return (
+                                            lat1 + (lat2 - lat1) * progress,
+                                            lon1 + (lon2 - lon1) * progress
+                                    )
+                                </code>
+                            </pre>
+                            <div class="text-section">
+                                <p>3️⃣ Find the train closest to a given station</p>
+                            </div>
+                            <pre>
+                                <code class="language-python">
+                                    python (Using SQL)
+
+                                    MATCH (t:Train)-[:servesRoute]->(r:Route),
+                                            (s:Station {stationId: $target})
+                                    RETURN t.vehicleId, t.nextStationId, t.secondsToNextStop
+                                    ORDER BY t.secondsToNextStop ASC
+                                    LIMIT 1;
+                                </code>
+                            </pre>
+                            <div class="text-section">
+                                <p>4️⃣ Get trains running on a specific line and their next stations</p>
+                            <pre>
+                                <code class="language-python">
+                                    python (Using SQL)
+
+                                    MATCH (t:Train)
+                                    WHERE t.lineId = "central"
+                                    RETURN t.vehicleId, t.nextStationName, t.secondsToNextStop;
+                                </code>
+                            </pre>
+                        </div>
                     </div>
+                </div>
+                <div class="section" id="section4-m4">
+                    <div class="section-intro">
+                        <p>Validation queries ensure:</p>
+                    
+                        <ul class="simple-list">
+                                <li>Ontology consistency</li>
+                                <li>Data completeness</li>
+                                <li>Logical correctness</li>
+                                <li>Relationship integrity</li>
+                        </ul>
+                        <p>This is critical for trustworthy Digital Twins.</p>
+                    </div>
+                    <div class="info-box">
+                        <div class="text-section">
+                            <h3>In the London Underground Example</h3>
+                            <p>1️⃣ Stations without coordinates</p>
+                        </div>
+                        <pre>
+                            <code class="language-python">
+                                cypher
+
+                                MATCH (s:Station)
+                                WHERE s.latitude IS NULL OR s.longitude IS NULL
+                                RETURN s.stationId, s.name;
+                            </code>
+                        </pre>
+                        <div class="text-section">
+                            <p>2️⃣ Trains linked to a non-existent line</p>
+                        </div>
+                        <pre>
+                            <code class="language-python">
+                                cypher
+
+                                MATCH (t:Train)
+                                WHERE NOT (t)-[:servesRoute]->(:Route)
+                                RETURN t.vehicleId;
+                            </code>
+                        </pre>
+                        <div class="text-section">
+                            <p>3️⃣ Routes with missing stations</p>
+                        </div>
+                        <pre>
+                            <code class="language-python">
+                                cypher
+
+                                MATCH (r:Route)
+                                UNWIND r.stationSequence AS stationId
+                                OPTIONAL MATCH (s:Station {stationId: stationId})
+                                WHERE s IS NULL
+                                RETURN r.routeId, stationId;
+                            </code>
+                        </pre>
+                        <div class="text-section">
+                            <p>4️⃣ Check for overlapping or duplicate train updates</p>
+                            <pre>
+                                <code class="language-python">
+                                    flux 
+
+                                    from(bucket: "underground")
+                                        |> range(start: -5m)
+                                        |> filter(fn: (r) => r._measurement == "train_status")
+                                        |> duplicateCheck() // pseudo-logic — explain in tutorial
+                                </code>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="section" id="section5-m4">
+                        <div class="section-intro">
+                        <p>Many use-cases require combining:</p>
+                    
+                        <ul class="simple-list">
+                                <li>Graph structure</li>
+                                <li>Real-time metrics</li>
+                                <li>Movement</li>
+                                <li>Historical behaviour</li>
+                        </ul>
+                        <p>These hybrid queries enable the most advanced Digital Twin insights.</p>
+                    </div>
+                    <div class="info-box">
+                        <div class="text-section">
+                            <h3>In the London Underground Example</h3>
+                            <p>1️⃣ Neo4j + InfluxDB: Slowest segment on a route</p>
+                        </div>
+                        <ul class="simple-list">
+                                <li>Neo4j: get station sequence</li>
+                                <li>Influx: compute travel times between stations</li>
+                        </ul>
+                        <div class="text-section">
+                        <p>2️⃣ Map + Graph: Plot all stations served by a line on a map</p>
+                        </div>
+                        <ul class="simple-list">
+                                <li>Neo4j: fetch station coordinates</li>
+                                <li>Python: plot with matplotlib/folium</li>
+                        </ul>
+                        <div class="text-section">
+                        <p>3️⃣ Graph + Telemetry: Find trains operating off their assigned route</p>
+                        </div>
+                        <ul class="simple-list">
+                                <li>Neo4j: route structure</li>
+                                <li>Influx: actual movement patterns</li>
+                        </ul>
+                        <div class="text-section">
+                        <p>4️⃣ Map + Time-Series: Show delay heatmap over London</p>
+                        </div>
+                        <ul class="simple-list">
+                                <li>Influx: average delays per station</li>
+                                <li>Python: choropleth or heatmap</li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let currentMenu = 'menu1';
+        let currentMenu = 'intro';
 
         const menuLabels = {
+            intro: [],
             menu1: ['Ontologies', 'Assets', 'Relationships', 'Visualisation', 'Validation', 'Summary'],
             menu2: ['Introduction', 'Accessing Data From External Sources', 'Data Transformation', 'Data Storage', 'Validating Data'],
             menu3: ['Why Visualisation Matters', 'Graph Visualisation', 'Time-Series Dashboard', 'Geospatial & Live Movement Visualisation', 'Combining Visualisation Layers'],
-            menu4: ['Example 1', 'Example 2', 'Example 3', 'Example 4']
+            menu4: ['Knowledge Graph Queries', 'Time-Series Queries', 'Geospatial & Live Movement Queries', 'Validation Queries', 'Combined Queries']
         };
 
         function updateTopNavLabels(menu) {
-            const labels = menuLabels[menu];
             const topNav = document.getElementById('topNav');
             
-            // Clear existing buttons
+            if (menu === 'intro') {
+                topNav.classList.add('hidden');
+                return;
+            }
+            
+            topNav.classList.remove('hidden');
+            const labels = menuLabels[menu];
             topNav.innerHTML = '';
             
-            // Create buttons based on menu labels
             labels.forEach((label, index) => {
                 const button = document.createElement('a');
                 button.href = '#';
@@ -2384,7 +2735,6 @@
                 topNav.appendChild(button);
             });
             
-            // Re-attach click handlers to new buttons
             attachTopNavHandlers();
         }
 
@@ -2408,42 +2758,48 @@
             });
         }
 
-        // Handle sidebar menu clicks
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
+                
+                // Update active menu in sidebar
                 document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
                 item.classList.add('active');
 
                 currentMenu = item.getAttribute('data-menu');
                 
-                // Update top nav labels
+                // Update top nav
                 updateTopNavLabels(currentMenu);
                 
-                // Hide all menu containers
+                // Hide all menus, show current
                 document.querySelectorAll('.menu-container').forEach(container => {
-                    container.style.display = 'none';
+                    container.classList.remove('active');
                 });
+                document.getElementById(currentMenu).classList.add('active');
                 
-                // Show selected menu
-                document.getElementById(currentMenu).style.display = 'block';
-                
-                // Reset to first section
-                document.querySelectorAll('.top-item').forEach(b => b.classList.remove('active'));
+                // Handle sections
                 document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
                 
-                const topItems = document.querySelectorAll('.top-item');
-                topItems[0].classList.add('active');
-                
-                const menuSuffix = currentMenu === 'menu1' ? '' : '-m' + currentMenu.slice(-1);
-                document.getElementById('section1' + menuSuffix).classList.add('active');
+                if (currentMenu === 'intro') {
+                    document.querySelector('#intro .section').classList.add('active');
+                } else {
+                    document.querySelectorAll('.top-item').forEach(b => b.classList.remove('active'));
+                    const topItems = document.querySelectorAll('.top-item');
+                    if (topItems.length > 0) {
+                        topItems[0].classList.add('active');
+                    }
+                    const menuSuffix = currentMenu === 'menu1' ? '' : '-m' + currentMenu.slice(-1);
+                    document.getElementById('section1' + menuSuffix).classList.add('active');
+                }
             });
         });
 
-        // Set initial active states and labels
-        document.querySelector('[data-menu="menu1"]').classList.add('active');
-        updateTopNavLabels('menu1');
-        attachTopNavHandlers();
+        // Initialize
+        document.querySelector('[data-menu="intro"]').classList.add('active');
+        updateTopNavLabels('intro');
+
+        hljs.highlightAll();
     </script>
+    
 </body>
 </html>
