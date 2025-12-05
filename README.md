@@ -101,7 +101,7 @@ The ontology expresses mostly static interfaces (Station, Route, AccessibilityFe
 [1] Forecast future bunching (headway < threshold)
 
 ```
-WITH 120 AS minSeparation   // seconds (2 minutes)
+WITH 120 AS minSeparation
 
 MATCH (t:Train)-[:servesRoute]->(r:Route)-[:onLine]->(l:Line)
 WITH minSeparation,
@@ -134,7 +134,7 @@ RETURN
     b.train.vehicleId AS trainB,
     b.eta AS etaB,
     gap AS gapSeconds
-ORDER BY gapSeconds ASC;   // smallest gaps first
+ORDER BY gapSeconds ASC;
 ```
 
 
