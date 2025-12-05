@@ -71,8 +71,7 @@
     "@context": "dtmi:dtdl:context;3",
     "displayName": "AccessibilityFeature",
     "contents": [
-      { "@type": "Property", "name": "name", "schema": "string" },
-      { "@type": "Relationship", "name": "hasAccessibilityFeature", "target": "dtmi:example:Station;1" }
+      { "@type": "Property", "name": "name", "schema": "string" }
     ]
   }
 ]
