@@ -636,6 +636,19 @@
             color: white;
         }
 
+        .content-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin: 20px 0 5px 0;
+            display: block;
+        }
+
+        .content-box img + p {
+            margin: 5px 0 40px 0;
+        }
+
         @media (max-width: 768px) {
             .summary-row-3col {
                 grid-template-columns: 1fr;
@@ -918,7 +931,9 @@
             <li><a href="#" class="menu-item" data-menu="menu1">Ontologies</a></li>
             <li><a href="#" class="menu-item" data-menu="menu2">Data Acquisition</a></li>
             <li><a href="#" class="menu-item" data-menu="menu3">Visualisation</a></li>
-            <li><a href="#" class="menu-item" data-menu="menu4">Queries</a></li>
+            <li><a href="#" class="menu-item" data-menu="menu4">Building the TFL Example</a></li>
+            <li><a href="#" class="menu-item" data-menu="menu5">Queries</a></li>
+            
         </ul>
     </aside>
 
@@ -936,10 +951,10 @@
                     <div class="section active">
                         <h1>Welcome</h1>
                         <p class="content-text">
-This tutorial introduces the full workflow for creating a modern Digital Twin (DT) system—starting from conceptual modelling and ending with live, data-driven visualisations and queries.
-We will use the London Underground as an end-to-end example, demonstrating how trains, routes, stations, and real-time data can be represented, ingested, visualised, and queried.
-You will learn not only what to do, but why each step matters, and how all the components connect to form a coherent digital twin pipeline.</p>
-                        
+                        This tutorial introduces the full workflow for creating a modern Digital Twin (DT) system—starting from conceptual modelling and ending with live, data-driven visualisations and queries.
+                        We will use the London Underground as an end-to-end example, demonstrating how trains, routes, stations, and real-time data can be represented, ingested, visualised, and queried.
+                        You will learn not only what to do, but why each step matters, and how all the components connect to form a coherent digital twin pipeline.
+                        </p>
                         <div class="highlight">
                             <h3>📘 What You Will Learn</h3>
                             <p><strong>1. Ontologies: The Structure Behind the Digital Twin</strong></p>
@@ -2365,6 +2380,150 @@ You will learn not only what to do, but why each step matters, and how all the c
                 <!-- Menu 4 Sections -->
                 <div class="menu-container" id="menu4">
                     <div class="section" id="section1-m4">
+                        <p class="content-text">
+                        A GitHub Repository has been created to accompany this tutorial, providing all the necessary files and scripts to build the London Underground Digital Twin example from scratch. 
+                        Over the next sections, we will show you how to set up the TFL EXmaple using the Guthub Repository Files. We will take what you have learned from previous sections and show how you can out it into action!
+                        </p>
+                        <div class="intro-box">
+                            <h3>GitHub Repository Link</h3>
+                            <p><strong>https://github.com/virtual-janus/dtaas-tutorial-tfl/blob/main</strong>.</p>
+                        </div>
+                        <div class="highlight">
+                            <h3>What is in the GitHub Repository</h3>
+                            <p><strong>1. A DTDL File for the Ontology</strong></p>
+                            <p><strong>2. Python Script to create the Knowledge Graph</strong></p>
+                            <p><strong>3. Python Script to Acquire Live Data</strong></p>
+                            <p><strong>4. Python Script to create Live Visualisatio</strong></p>
+                        </div>
+                    </div>
+                    <div class="section" id="section2-m4">
+                        <div class="section-intro">
+                            <p>As we now understand what is involoved in building an ontology, let's view the example of the TFL Ontology. The file for this has been provided in the Github Repo shown in Figure 1.</p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="images/DTDL-GIT.png">
+                            <p class="screenshot-caption">Figure 1: Viewing the DTDL.json file in the GitHub Repository</p>
+                        </div>
+                        <div class="section-intro">
+                            <p>If we download this file we can view it using the UKDTC Ontology Tool.</p>
+                        </div>
+                        <div class="intro-box">
+                            <h3>UKDTC Ontology Tool Link</h3>
+                            <p><strong>https://dtdl-visualiser.azurewebsites.net</strong></p>
+                        </div>
+                        <div class="section-intro">
+                            <p>There are 2 options of uploading the DTDL file, we can either upload it from a local zip file or link the GitHub repository. </p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="images/Ontology_Tool.png">
+                            <p class="screenshot-caption">Figure 2: Uploading the DTDL to the UKDTC Ontology Tool</p>
+                        </div>
+                        <div class="section-intro">
+                            <p>Once the file has been uploaded, the ontology will automatically show on the screen. </p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="images/TFL_Ontology.png">
+                            <p class="screenshot-caption">Figure 3: Viewing the TFL Ontology in the UKDTC Ontology Tool</p>
+                        </div>
+                    </div>
+                    <div class="section" id="section3-m4">
+                        <div class="section-intro">
+                            <p>Now we can view the ontology, we want to be create the knowledge graph. This involves entering the details for all assets and relationships involved in our system. As the TFL system has 272 stations, we have created a python script that will
+                                automatically create this knowledge graph from the API. The script can be found in the GitHub Repository called <strong>tfl_graph_builder.py</strong>.
+                            </p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="images/KG-Python-Script.png">
+                            <p class="screenshot-caption">Figure 4: Viewing the tfl_graph_builder.py file in the GitHub Repository</p>
+                        </div>
+                        <div class="section-intro">
+                            <p>You can download this file and run it locally. <strong>Please ensure you change the credentials at the start of the script.</strong> 
+                            </p>
+                            <p>
+                                <strong>DESCRIPTION OF PYTHON SCRIPT</strong>.
+                            </p>
+                            <p>
+                                When the script is run, it will connect to yur Neo4j instance and created the knowledge graph based on the ontology shown previously. This can be seen in Figure 5 below, the graph shown can be retrieved by running this simple Cypher query in the Neo4j Browser.
+                            </p>
+                            <pre>
+                                <code class="language-python">
+                                    cypher
+
+                                    MATCH (n)
+                                    OPTIONAL MATCH (n)-[r]-()
+                                    RETURN n, r
+                                </code>
+                            </pre>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="Images/Static-KG.png">
+                            <p class="screenshot-caption">Figure 5: Static Knowledge Graph of TFL.</p>
+                        </div>
+                    </div>
+                    <div class="section" id="section4-m4">
+                        <div class="section-intro">
+                            <p>As we have created the static Knowledge Graph, we want to add the live train data into the graph. We do this by running the <strong>neo4j_adapter.py</strong>. 
+                            </p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="images/Live-Train-Data.png">
+                            <p class="screenshot-caption">Figure 6: Viewing the neo4j_adapter.py file in the GitHub Repository</p>
+                        </div>
+                        <div class="section-intro">
+                            <p>This script will connect to the TFL API and get live train data every 30 seconds and update the knowledge graph with the latest information. <strong>Please ensure you change the credentials at the start of the script.</strong> </p>
+                            <p>
+                                <strong>DESCRIPTION OF PYTHON SCRIPT</strong>.
+                            </p>
+                            <p>
+                                The information can be seen in the Knowledge Graph as shown in Figure 7 below and
+                                also in InfluxDB as see in Figure 8. 
+                            </p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="">
+                            <p class="screenshot-caption">Figure 7: Dynamic Knowledge Graph including Live Train Data</p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="Images/Influx-Data.png">
+                            <p class="screenshot-caption">Figure 8: Live Train Data in InfluxDB</p>
+                        </div>
+                        <div class="section-intro">
+                            <p>In InfluxDB, we can create dashboards to visualise the live data. An example of this is shown in Figure 9 below where we can see when trains are approaching stationID 940GZZBPSUST in real-time.
+                                You can use the query selector at the bottom of the InfluxDB page to select what you want to view or add to your dashboard. 
+                            </p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="Images/Influx-Graph.png">
+                            <p class="screenshot-caption">Figure 9: InfluxDB Dashboard Example</p>
+                        </div>
+                    </div>
+                    <div class="section" id="section5-m4">
+                        <div class="section-intro">
+                            <p>The final step in our example is to create the Live Geospatial Visualisation of the train movements across London. This is done using the <strong>main.py</strong> script and the <strong>index.html</strong> file found in the GitHub Repository.
+                            </p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="images/LV-Python.png">
+                            <p class="screenshot-caption">Figure 10: Viewing the main.py file in the GitHub Repository</p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="images/LV-HTML.png">
+                            <p class="screenshot-caption">Figure 11: Viewing the index.html file in the GitHub Repository</p>
+                        </div>
+                        <div class="section-intro">
+                            <p><strong>DESCRIPTION OF THE CODE</strong>
+                            </p>
+                            <p>Once we run the python script, we can load index.html on your browser and view the live train updates on a map of London, seen in Figure 12.</p>
+                        </div>
+                        <div class="screenshot-container">
+                            <img src="images/LV-HTML.png">
+                            <p class="screenshot-caption">Figure 12: Live train Visualisation</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Menu 5 Sections -->
+                <div class="menu-container" id="menu5">
+                    <div class="section" id="section1-m5">
                         <div class="section-intro">
                             <p>In a digital twin graph database, queries help you explore asset relationships and network topology. Typical query categories include:</p>
                         
@@ -2429,7 +2588,7 @@ You will learn not only what to do, but why each step matters, and how all the c
                         </div>
                     </div>
 
-                    <div class="section" id="section2-m4">
+                    <div class="section" id="section2-m5">
                         <div class="section-intro">
                             <p>Time-series queries analyse system behaviour over time:</p>
                         
@@ -2513,7 +2672,7 @@ You will learn not only what to do, but why each step matters, and how all the c
                         </div>
                     </div>
 
-                    <div class="section" id="section3-m4">
+                    <div class="section" id="section3-m5">
                         <div class="section-intro">
                             <p>Geospatial queries focus on:</p>
                         
@@ -2586,7 +2745,7 @@ You will learn not only what to do, but why each step matters, and how all the c
                         </div>
                     </div>
                 </div>
-                <div class="section" id="section4-m4">
+                <div class="section" id="section4-m5">
                     <div class="section-intro">
                         <p>Validation queries ensure:</p>
                     
@@ -2653,7 +2812,7 @@ You will learn not only what to do, but why each step matters, and how all the c
                         </div>
                     </div>
                 </div>
-                <div class="section" id="section5-m4">
+                <div class="section" id="section5-m5">
                         <div class="section-intro">
                         <p>Many use-cases require combining:</p>
                     
@@ -2711,7 +2870,8 @@ You will learn not only what to do, but why each step matters, and how all the c
             menu1: ['Ontologies', 'Assets', 'Relationships', 'Visualisation', 'Validation', 'Summary'],
             menu2: ['Introduction', 'Accessing Data From External Sources', 'Data Transformation', 'Data Storage', 'Validating Data'],
             menu3: ['Why Visualisation Matters', 'Graph Visualisation', 'Time-Series Dashboard', 'Geospatial & Live Movement Visualisation', 'Combining Visualisation Layers'],
-            menu4: ['Knowledge Graph Queries', 'Time-Series Queries', 'Geospatial & Live Movement Queries', 'Validation Queries', 'Combined Queries']
+            menu4: ['GitHub Repository', 'How to View the Ontology', 'Creating the Knowlegdge Graph', 'Getting Live Data', 'Creating Live Visualisaiton'],
+            menu5: ['Knowledge Graph Queries', 'Time-Series Queries', 'Geospatial & Live Movement Queries', 'Validation Queries', 'Combined Queries']       
         };
 
         function updateTopNavLabels(menu) {
