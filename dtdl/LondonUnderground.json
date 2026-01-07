@@ -9,10 +9,26 @@
       { "@type": "Property", "name": "stationId", "schema": "string" },
       { "@type": "Property", "name": "latitude", "schema": "double" },
       { "@type": "Property", "name": "longitude", "schema": "double" },
-      { "@type": "Relationship", "name": "servedByLine", "target": "dtmi:example:Line;1" },
-      { "@type": "Relationship", "name": "startingStation", "target": "dtmi:example:Route;1" },
-      { "@type": "Relationship", "name": "terminatingStation", "target": "dtmi:example:Route;1" },
-      { "@type": "Relationship", "name": "hasAccessibilityFeature", "target": "dtmi:example:AccessibilityFeature;1" }
+      {
+        "@type": "Relationship",
+        "name": "servedByLine",
+        "target": "dtmi:example:Line;1"
+      },
+      {
+        "@type": "Relationship",
+        "name": "startingStation",
+        "target": "dtmi:example:Route;1"
+      },
+      {
+        "@type": "Relationship",
+        "name": "terminatingStation",
+        "target": "dtmi:example:Route;1"
+      },
+      {
+        "@type": "Relationship",
+        "name": "hasAccessibilityFeature",
+        "target": "dtmi:example:AccessibilityFeature;1"
+      }
     ]
   },
   {
@@ -23,8 +39,16 @@
     "contents": [
       { "@type": "Property", "name": "routeId", "schema": "string" },
       { "@type": "Property", "name": "direction", "schema": "string" },
-      { "@type": "Property", "name": "stationSequence", "schema": { "@type": "Array", "elementSchema": "string" } },
-      { "@type": "Relationship", "name": "onLine", "target": "dtmi:example:Line;1" }
+      {
+        "@type": "Property",
+        "name": "stationSequence",
+        "schema": { "@type": "Array", "elementSchema": "string" }
+      },
+      {
+        "@type": "Relationship",
+        "name": "onLine",
+        "target": "dtmi:example:Line;1"
+      }
     ]
   },
   {
@@ -41,8 +65,13 @@
       { "@type": "Property", "name": "nextStationId", "schema": "string" },
       { "@type": "Property", "name": "nextStationName", "schema": "string" },
       { "@type": "Property", "name": "vehicleId", "schema": "string" },
-      { "@type": "Relationship", "name": "servesRoute", "target": "dtmi:example:Route;1" }
-    ]
+      {
+        "@type": "Relationship",
+        "name": "servesRoute",
+        "target": "dtmi:example:Route;1"
+      }
+    ],
+    "description": "Physical train entity.\n"
   },
   {
     "@id": "dtmi:example:Line;1",
@@ -62,7 +91,11 @@
     "displayName": "TransportOperator",
     "contents": [
       { "@type": "Property", "name": "name", "schema": "string" },
-      { "@type": "Relationship", "name": "operatesLine", "target": "dtmi:example:Line;1" }
+      {
+        "@type": "Relationship",
+        "name": "operatesLine",
+        "target": "dtmi:example:Line;1"
+      }
     ]
   },
   {
@@ -70,8 +103,6 @@
     "@type": "Interface",
     "@context": "dtmi:dtdl:context;3",
     "displayName": "AccessibilityFeature",
-    "contents": [
-      { "@type": "Property", "name": "name", "schema": "string" }
-    ]
+    "contents": [{ "@type": "Property", "name": "name", "schema": "string" }]
   }
 ]
