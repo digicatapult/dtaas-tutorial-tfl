@@ -94,7 +94,8 @@
       {
         "@type": "Relationship",
         "name": "operatesLine",
-        "target": "dtmi:example:Line;1"
+        "target": "dtmi:example:Line;1",
+        "description": "Some description"
       }
     ]
   },
