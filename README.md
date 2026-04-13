@@ -77,7 +77,7 @@ This ontology represents the London Underground network in **Azure Digital Twins
   - `hasAccessibilityFeature` – Links to stations offering this feature.
 
 # Neo4J and InfluxDB Setup
-Use a UKDTC DTaaS Design Studio environment, or alternatively run Neo4j and InfluxDB locally using docker.
+Use a UKDTC DT Sandbox environment, or alternatively run Neo4j and InfluxDB locally using docker.
 
 E.g.
 
