@@ -1,111 +1,118 @@
 # dtaas-tutorial-tfl
-DTaaS Tutorial using Transport for London API
 
-## London Underground DTDL V3 Ontology
+A Digital Twin as a Service (DTaaS) tutorial using the Transport for London API. This project builds a live digital twin of the London Underground by pulling real-time train data from the TfL Unified API, storing the network topology and train positions in Neo4j, recording time-series telemetry in InfluxDB, and visualising the result on a Leaflet.js map served via FastAPI.
 
-This ontology represents the London Underground network in **Azure Digital Twins (DTDL V3)**, including stations, lines, routes, trains, operators, and accessibility features.
+The ontology is defined in DTDL V3 (`dtdl/LondonUnderground.json`) with six interfaces: **Station**, **Route**, **Train**, **Line**, **TransportOperator**, and **AccessibilityFeature**.
 
----
+## Two Ways to Run
 
-### 1. Station
-- **Represents:** A single Underground station.
-- **Properties:** 
-  - `name` – The station’s name.
-  - `stationId` – Unique identifier for the station.
-  - `latitude` / `longitude` – Geographical coordinates.
-- **Relationships:**
-  - `servedByLine` – Links to lines that stop at this station.
-  - `startingStation` / `terminatingStation` – Links to routes starting or ending at this station.
-  - `hasAccessibilityFeature` – Links to accessibility features available at the station.
+The system supports two data ingestion modes. Both require `agents/tfl_graph_builder.py` to be run first to build the static graph.
 
----
+| | Local (polling) | UKDTC Sandbox (event-driven) |
+|---|---|---|
+| **Script** | `legacy/tfl_train_loader.py` | `agents/neo4j_adapter.py` |
+| **Data source** | Polls TfL API directly every 30s | Subscribes to MQTT broker fed by Node-RED |
+| **Writes to** | Neo4j + InfluxDB | Neo4j only |
+| **Infrastructure** | Docker (Neo4j + InfluxDB) | UKDTC Sandbox (Neo4j + Mosquitto + Node-RED) |
 
-### 2. Route
-- **Represents:** A train route connecting a sequence of stations.
-- **Properties:** 
-  - `routeId` – Unique identifier for the route.
-  - `direction` – Direction of travel.
-  - `stationSequence` – Ordered list of station IDs along the route.
-- **Relationships:** 
-  - `onLine` – Links the route to a line.
-  - `servesRoute` – Links to trains currently serving this route.
+For local development, use the polling approach — it is self-contained and requires no additional infrastructure beyond two Docker containers.
 
----
+For the UKDTC Sandbox, set credentials (`MQTT_PASS`, `NEO4J_PASS`) in `agents/neo4j_adapter.py` and import `nodered/train_loader_flow.json` into the sandbox Node-RED instance. The adapter connects to `mosquitto.ukdtc-dtaas-uop.ukdtc.uk` via WebSockets with TLS.
 
-### 3. Train
-- **Represents:** An individual train running on the network.
-- **Properties:** 
-  - `lineId` – The line the train belongs to.
-  - `direction` – Direction of travel.
-  - `timestamp` – Current observation timestamp.
-  - `secondsToNextStop` – Time until the train reaches its next station.
-  - `expectedArrival` – Scheduled or predicted arrival time at the next station.
-  - `nextStationId` / `nextStationName` – Next station on the route.
-  - `vehicleId` – Unique identifier for the train.
-- **Relationships:** 
-  - `servesRoute` – Links to the route the train is serving.
+## Running Locally
 
----
+### 1. Start Neo4j and InfluxDB
 
-### 4. Line
-- **Represents:** A physical or operational subway line.
-- **Properties:** 
-  - `lineId` – Unique identifier for the line.
-  - `name` – Line name (e.g., "Central").
-  - `colour` – Official line color for visualization.
-- **Relationships:** 
-  - `servedByLine` – Links to stations served by the line.
-  - `onLine` – Links to routes on this line.
-  - `operatesLine` – Links to the transport operator running the line.
+```bash
+docker run -d --name neo4j \
+  -p 7474:7474 -p 7687:7687 \
+  -v neo4j_data:/data \
+  -e NEO4J_AUTH=neo4j/supersecretpassword \
+  neo4j:5
 
----
-
-### 5. TransportOperator
-- **Represents:** The organization managing a line (e.g., TfL).
-- **Properties:** 
-  - `name` – Operator name.
-- **Relationships:** 
-  - `operatesLine` – Links to the lines operated by this organization.
-
----
-
-### 6. AccessibilityFeature
-- **Represents:** Accessibility capabilities available at stations (e.g., lifts, step-free access).
-- **Properties:** 
-  - `name` – Name of the feature.
-- **Relationships:** 
-  - `hasAccessibilityFeature` – Links to stations offering this feature.
-
-# Neo4J and InfluxDB Setup
-Use a UKDTC DT Sandbox environment, or alternatively run Neo4j and InfluxDB locally using docker.
-
-E.g.
-
-docker pull influxdb:2.7
-
-docker run -d --name influxdb -p 8086:8086 -v influxdb2_data:/var/lib/influxdb2 -e INFLUXDB_ADMIN_USER=admin -e INFLUXDB_ADMIN_PASSWORD=supersecretpassword -e INFLUXDB_BUCKET=mybucket -e INFLUXDB_ORG=myorg influxdb:2.7
-
-docker pull neo4j:5
-
-docker run -d --name neo4j -p 7474:7474 -p 7687:7687 -v neo4j_data:/data -e NEO4J_AUTH=neo4j/supersecretpassword neo4j:5
-
-# Build the Neo4j Graph
-The ontology expresses mostly static interfaces (Station, Route, AccessibilityFeature, TransportOperator, Line). There is one dynamic interface (Train). To run the tutorial we first create the static graph and then update the graph dynamically with train data.
-
-[1] python tfl_graph_builder.py
-
-[2] python tfl_train_loader.py
-
-
-# Interesting Queries
-[1] Forecast future bunching (headway < threshold)
-
+docker run -d --name influxdb \
+  -p 8086:8086 \
+  -v influxdb2_data:/var/lib/influxdb2 \
+  influxdb:2.7
 ```
+
+### 2. Install dependencies
+
+```bash
+poetry install
+```
+
+### 3. Configure credentials
+
+**Neo4j**: All scripts are pre-configured with password `supersecretpassword` to match the Docker container above. No changes needed.
+
+**InfluxDB**: Open http://localhost:8086 and complete the onboarding wizard (org: `UKDTC`, bucket: `TFL`). Then go to **Load Data → API Tokens**, copy the generated token, and set it in:
+
+| File | Variable |
+|---|---|
+| `legacy/tfl_train_loader.py` | `INFLUX_TOKEN` |
+| `visualisation/main.py` | `INFLUX_TOKEN` |
+
+### 4. Build the static graph
+
+```bash
+poetry run python agents/tfl_graph_builder.py
+```
+
+This fetches all Underground lines, stations, routes, and accessibility features from the TfL API and writes them to Neo4j. Takes a few minutes due to API rate limits.
+
+### 5. Start the train loader
+
+```bash
+poetry run python legacy/tfl_train_loader.py
+```
+
+This polls the TfL API every 30 seconds for all 11 Underground lines and writes train positions to Neo4j and InfluxDB.
+
+### 6. Start the visualisation
+
+```bash
+poetry run uvicorn visualisation.main:app --host 0.0.0.0 --port 8000
+```
+
+There are two ways to view the map:
+
+- **Via the server** (recommended): Open http://localhost:8000. The FastAPI app serves `index.html` at the root URL alongside the WebSocket data stream — everything from one address.
+- **Via the file directly**: Open `visualisation/index.html` in a browser by dragging it in or navigating to `file:///path/to/visualisation/index.html`. This works because the HTML contains a hardcoded `ws://localhost:8000/ws/trains` WebSocket URL, and browsers permit WebSocket connections from `file://` origins. This was the original approach before the `GET /` route was added.
+
+### 7. Verify Neo4j
+
+Open http://localhost:7474, log in with `neo4j` / `supersecretpassword`, and run:
+
+```cypher
+MATCH (n) RETURN labels(n), count(n)
+```
+
+You should see counts for Station, Line, Route, Train, TransportOperator, and AccessibilityFeature nodes.
+
+## DTDL V3 Ontology
+
+The ontology in `dtdl/LondonUnderground.json` defines the following interfaces:
+
+| Interface | Description |
+|---|---|
+| **Station** | A physical Underground station with coordinates and accessibility features |
+| **Route** | A sequence of stations in a given direction on a line |
+| **Train** | A live train with position, direction, ETA, and vehicle ID |
+| **Line** | A logical line (e.g. Central, Victoria) with a colour |
+| **TransportOperator** | The operating entity (TfL) |
+| **AccessibilityFeature** | Station features such as lifts, toilets, and taxi ranks |
+
+## Interesting Queries
+
+Forecast future bunching (headway < threshold):
+
+```cypher
 WITH 120 AS minSeparation
 
 MATCH (t:Train)-[:servesRoute]->(r:Route)-[:onLine]->(l:Line)
 WITH minSeparation,
-     l.name AS line, 
+     l.name AS line,
      r.routeId AS route,
      t.direction AS direction,
      t,
@@ -125,7 +132,7 @@ WITH minSeparation,
 
 WHERE gap < minSeparation
 
-RETURN 
+RETURN
     line,
     route,
     direction,
@@ -136,5 +143,3 @@ RETURN
     gap AS gapSeconds
 ORDER BY gapSeconds ASC;
 ```
-
-

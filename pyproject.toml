@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "dtaas-tutorial-tfl"
+version = "0.1.0"
+description = "DTaaS Tutorial using Transport for London API"
+authors = []
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.14"
+requests = "^2.31.0"
+neo4j = "^5.14.0"
+influxdb-client = "^1.38.0"
+paho-mqtt = "^2.1.0"
+fastapi = "^0.136.0"
+uvicorn = {version = "^0.45.0", extras = ["standard"]}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
