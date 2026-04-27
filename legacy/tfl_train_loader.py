@@ -1,21 +1,19 @@
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
 import requests
 import time
 from datetime import datetime
 from influxdb_client import InfluxDBClient, Point, WriteOptions
 from influxdb_client.client.write_api import SYNCHRONOUS
 from neo4j import GraphDatabase
+from config import (
+    NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD,
+    INFLUX_URL, INFLUX_TOKEN, INFLUX_ORG, INFLUX_BUCKET,
+)
 
-# Neo4j connection details
-uri = "bolt://localhost:7687"
-username = "neo4j"
-password = ""  # Replace with Neo4j password
-driver = GraphDatabase.driver(uri, auth=(username, password))
-
-# InfluxDB connection details
-INFLUX_URL = "http://localhost:8086"
-INFLUX_TOKEN = ""  # Replace with InfluxDB API Token
-INFLUX_ORG = "UKDTC"  # Change as required
-INFLUX_BUCKET = "TFL"  # Change as required
+driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 
 def init_influx():
     client = InfluxDBClient(

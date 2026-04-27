@@ -1,23 +1,17 @@
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
 import paho.mqtt.client as mqtt
 import json
 import requests
 from neo4j import GraphDatabase
+from config import (
+    NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD,
+    MQTT_HOST, MQTT_PORT, MQTT_TOPIC, MQTT_USER, MQTT_PASS,
+)
 
-# Single root hostname (change this ONCE)
-ROOT_HOST = "ukdtc-dtaas-uop.ukdtc.uk"
-
-# MQTT / Mosquitto
-MQTT_HOST = f"mosquitto.{ROOT_HOST}"
-MQTT_PORT = 9443
-MQTT_TOPIC = "tfl/#"
-MQTT_USER = "ukdtc"
-MQTT_PASS = ""
-
-# Neo4j
-NEO4J_URL = f"bolt+s://neo4j.{ROOT_HOST}:7687"
-NEO4J_USER = "neo4j"
-NEO4J_PASS = ""
-driver = GraphDatabase.driver(NEO4J_URL, auth=(NEO4J_USER, NEO4J_PASS))
+driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 
 # Callback for when the client connects to the broker
 def on_connect(client, userdata, flags, rc):

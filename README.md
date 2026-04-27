@@ -17,7 +17,7 @@ The system supports two data ingestion modes. Both require `agents/tfl_graph_bui
 
 For local development, use the polling approach — it is self-contained and requires no additional infrastructure beyond two Docker containers.
 
-For the UKDTC Sandbox, set credentials (`MQTT_PASS`, `NEO4J_PASS`) in `agents/neo4j_adapter.py` and import `nodered/train_loader_flow.json` into the sandbox Node-RED instance. The adapter connects to `mosquitto.ukdtc-dtaas-uop.ukdtc.uk` via WebSockets with TLS.
+For the UKDTC Sandbox, uncomment and fill in the sandbox variables in your `.env` file (`NEO4J_URI`, `MQTT_PASS`, `NEO4J_PASSWORD`, etc.) and import `nodered/train_loader_flow.json` into the sandbox Node-RED instance. The adapter connects to `mosquitto.ukdtc-dtaas-uop.ukdtc.uk` via WebSockets with TLS.
 
 ## Running Locally
 
@@ -44,14 +44,28 @@ poetry install
 
 ### 3. Configure credentials
 
-**Neo4j**: All scripts are pre-configured with password `supersecretpassword` to match the Docker container above. No changes needed.
+Copy the example environment file and fill in your values:
 
-**InfluxDB**: Open http://localhost:8086 and complete the onboarding wizard (org: `UKDTC`, bucket: `TFL`). Then go to **Load Data → API Tokens**, copy the generated token, and set it in:
+```bash
+cp .env.example .env
+```
 
-| File | Variable |
-|---|---|
-| `legacy/tfl_train_loader.py` | `INFLUX_TOKEN` |
-| `visualisation/main.py` | `INFLUX_TOKEN` |
+The `.env` file is gitignored. Edit it to set your credentials:
+
+```env
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=supersecretpassword
+
+INFLUX_URL=http://localhost:8086
+INFLUX_TOKEN=              # see below
+INFLUX_ORG=UKDTC
+INFLUX_BUCKET=TFL
+```
+
+**Neo4j**: The default password `supersecretpassword` matches the Docker container above. Change it in `.env` if you used a different password.
+
+**InfluxDB token**: Open http://localhost:8086 and complete the onboarding wizard (org: `UKDTC`, bucket: `TFL`). Then go to **Load Data → API Tokens**, copy the generated token, and paste it as `INFLUX_TOKEN` in your `.env`.
 
 ### 4. Build the static graph
 
