@@ -70,7 +70,7 @@ INFLUX_BUCKET=TFL
 ### 4. Build the static graph
 
 ```bash
-poetry run python agents/tfl_graph_builder.py
+poetry run python -m agents.tfl_graph_builder
 ```
 
 This fetches all Underground lines, stations, routes, and accessibility features from the TfL API and writes them to Neo4j. Takes a few minutes due to API rate limits.
@@ -78,7 +78,7 @@ This fetches all Underground lines, stations, routes, and accessibility features
 ### 5. Start the train loader
 
 ```bash
-poetry run python legacy/tfl_train_loader.py
+poetry run python -m legacy.tfl_train_loader
 ```
 
 This polls the TfL API every 30 seconds for all 11 Underground lines and writes train positions to Neo4j and InfluxDB.
