@@ -1,26 +1,20 @@
 import asyncio
 import json
+from pathlib import Path
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.responses import HTMLResponse
 from neo4j import GraphDatabase, exceptions as neo4j_exceptions
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.exceptions import InfluxDBError
 from datetime import datetime
-
-# --- Neo4J ---
-NEO4J_URI = "bolt://localhost:7687"
-NEO4J_USER = "neo4j"
-NEO4J_PASS = ""
-neo_driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASS))
-
-# --- InfluxDB ---
-INFLUX_URL = "http://localhost:8086"
-INFLUX_TOKEN = ""
-INFLUX_ORG = "UKDTC"
-INFLUX_BUCKET = "TFL"
+from config import (
+    NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD,
+    INFLUX_URL, INFLUX_TOKEN, INFLUX_ORG, INFLUX_BUCKET,
+)
 
 # --- Neo4J and InfluxDB initialization ---
-neo_driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASS))
+neo_driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 influx_client = InfluxDBClient(url=INFLUX_URL, token=INFLUX_TOKEN, org=INFLUX_ORG)
 query_api = influx_client.query_api()
 
@@ -36,6 +30,12 @@ async def lifespan(app: FastAPI):
         print("Connections closed on shutdown")
 
 app = FastAPI(lifespan=lifespan)
+
+# --- Serve index.html at root ---
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    html_path = Path(__file__).parent / "index.html"
+    return HTMLResponse(content=html_path.read_text(), status_code=200)
 
 # --- Fetch stations from Neo4J ---
 async def fetch_stations():
@@ -96,12 +96,14 @@ async def fetch_live_trains():
 async def websocket_trains(ws: WebSocket):
     await ws.accept()
     print("WebSocket connection established")
-    while True:
-        try:
+    try:
+        while True:
             stations = await fetch_stations()
             trains = await fetch_live_trains()
             payload = json.dumps({"stations": stations, "trains": trains})
             await ws.send_text(payload)
-        except Exception as e:
-            print("Error in WebSocket loop:", e)
-        await asyncio.sleep(5)  # Update interval
+            await asyncio.sleep(5)  # Update interval
+    except WebSocketDisconnect:
+        print("WebSocket client disconnected")
+    except Exception as e:
+        print("WebSocket error, closing:", e)
