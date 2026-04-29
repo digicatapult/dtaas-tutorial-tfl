@@ -1,0 +1,113 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  lint:
+    name: Lint, format, and type check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: poetry
+      - name: Install packages
+        run: poetry install --no-interaction --no-ansi
+      - name: Lint
+        run: poetry run pylint agents/ legacy/ visualisation/ config.py --disable=C,R,W
+      - name: Format check
+        run: poetry run black --check .
+      - name: Type check
+        run: poetry run mypy agents/ legacy/ visualisation/ config.py
+
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: poetry
+      - name: Install packages
+        run: poetry install --no-interaction --no-ansi
+      - name: Run unit tests
+        run: poetry run pytest -m "not integration and not e2e" -v -s --cov=agents --cov=legacy --cov=visualisation --cov=config --cov-report=term-missing
+
+  integration-tests:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: poetry
+      - name: Start test services
+        run: docker compose -f docker-compose.test.yml up -d --wait
+      - name: Install packages
+        run: poetry install --no-interaction --no-ansi
+      - name: Run integration tests
+        env:
+          NEO4J_URI: bolt://localhost:7687
+          NEO4J_USER: neo4j
+          NEO4J_PASSWORD: testpassword
+          INFLUX_URL: http://localhost:8086
+          INFLUX_TOKEN: test-token-123
+          INFLUX_ORG: UKDTC
+          INFLUX_BUCKET: TFL
+          WIREMOCK_URL: http://localhost:8080
+        run: poetry run pytest -m integration -v -s
+      - name: Stop test services
+        if: always()
+        run: docker compose -f docker-compose.test.yml down -v
+
+  e2e-tests:
+    name: E2E tests (optional)
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.labels.*.name == 'run-e2e'
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: poetry
+      - name: Start test services
+        run: docker compose -f docker-compose.test.yml up -d --wait
+      - name: Install packages
+        run: poetry install --no-interaction --no-ansi
+      - name: Install Playwright browsers
+        run: poetry run playwright install --with-deps chromium
+      - name: Run e2e tests
+        env:
+          NEO4J_URI: bolt://localhost:7687
+          NEO4J_USER: neo4j
+          NEO4J_PASSWORD: testpassword
+          INFLUX_URL: http://localhost:8086
+          INFLUX_TOKEN: test-token-123
+          INFLUX_ORG: UKDTC
+          INFLUX_BUCKET: TFL
+          WIREMOCK_URL: http://localhost:8080
+        run: poetry run pytest -m e2e -v -s
+      - name: Stop test services
+        if: always()
+        run: docker compose -f docker-compose.test.yml down -v

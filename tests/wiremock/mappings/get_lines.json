@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/Line/Mode/tube"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "lines.json",
+    "headers": { "Content-Type": "application/json" }
+  }
+}

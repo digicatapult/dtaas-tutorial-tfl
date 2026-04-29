@@ -117,6 +117,38 @@ The ontology in `dtdl/LondonUnderground.json` defines the following interfaces:
 | **TransportOperator** | The operating entity (TfL) |
 | **AccessibilityFeature** | Station features such as lifts, toilets, and taxi ranks |
 
+## Testing
+
+This project uses a testing pyramid: unit tests, integration tests (require Docker Compose), and e2e tests.
+
+### Running Tests
+
+```bash
+poetry install
+poetry run pytest                # unit tests only (default)
+poetry run pytest -v -s          # verbose with stdout
+poetry run pytest --cov=agents --cov=legacy --cov=visualisation --cov=config --cov-report=term-missing
+```
+
+By default, `poetry run pytest` runs only unit tests (integration and e2e are excluded via `pyproject.toml` addopts).
+
+### Integration Tests
+
+```bash
+docker compose -f docker-compose.test.yml up -d --wait
+poetry run pytest -m integration -v -s
+docker compose -f docker-compose.test.yml down -v
+```
+
+### Linting and Formatting
+
+```bash
+poetry run pylint agents/ legacy/ visualisation/ config.py --disable=C,R,W
+poetry run black --check .
+poetry run black .
+poetry run mypy agents/ legacy/ visualisation/ config.py
+```
+
 ## Interesting Queries
 
 Forecast future bunching (headway < threshold):

@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/Line/victoria/Route/Sequence/inbound"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "victoria_route_inbound.json",
+    "headers": { "Content-Type": "application/json" }
+  }
+}

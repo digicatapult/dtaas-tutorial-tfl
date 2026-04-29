@@ -1,0 +1,18 @@
+[
+  {
+    "id": "victoria",
+    "name": "Victoria",
+    "modeName": "tube",
+    "colour": "#009FE0",
+    "routeSections": [],
+    "serviceTypes": [{"name": "Regular"}]
+  },
+  {
+    "id": "central",
+    "name": "Central",
+    "modeName": "tube",
+    "colour": "#DC241F",
+    "routeSections": [],
+    "serviceTypes": [{"name": "Regular"}]
+  }
+]

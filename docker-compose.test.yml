@@ -1,0 +1,68 @@
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: test-neo4j
+    restart: "no"
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=neo4j/testpassword
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:7474"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  influxdb:
+    image: influxdb:2.8
+    container_name: test-influxdb
+    restart: "no"
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=testpassword
+      - DOCKER_INFLUXDB_INIT_ORG=UKDTC
+      - DOCKER_INFLUXDB_INIT_BUCKET=TFL
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=test-token-123
+    healthcheck:
+      test: ["CMD", "influx", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  wiremock:
+    image: wiremock/wiremock:3.13.0
+    container_name: test-wiremock
+    restart: "no"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./tests/wiremock:/home/wiremock:ro
+    command: ["--verbose"]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/__admin/mappings"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: test-mosquitto
+    restart: "no"
+    ports:
+      - "1883:1883"
+    profiles:
+      - mqtt
+    command: ["mosquitto", "-c", "/dev/null", "-p", "1883"]
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -h localhost -t '$$SYS/#' -C 1 -W 2 || exit 0"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s

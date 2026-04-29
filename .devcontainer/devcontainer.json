@@ -1,0 +1,62 @@
+{
+  "name": "OpenCode Sandbox (${localWorkspaceFolderBasename})",
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+  "features": {
+    "ghcr.io/danzilberdan/devcontainers/opencode:0": {},
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": false,
+      "dockerDashComposeVersion": "v2"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "mounts": [
+    {
+      "source": "/Users/hadamkova/.local/share/opencode/auth.json",
+      "target": "/opt/opencode-auth.json",
+      "type": "bind",
+      "readonly": true
+    },
+    {
+      "source": "/Users/hadamkova/eng/opencode-setup",
+      "target": "/opt/opencode-setup",
+      "type": "bind",
+      "readonly": true
+    },
+    {
+      "source": "opencode-shell-history",
+      "target": "/commandhistory",
+      "type": "volume"
+    },
+    {
+      "source": "/Users/hadamkova/.gitconfig",
+      "target": "/home/vscode/.gitconfig.host",
+      "type": "bind",
+      "readonly": true
+    },
+    {
+      "source": "/Users/hadamkova/.docker/opencode-sandbox/config.json",
+      "target": "/home/vscode/.docker/config.json",
+      "type": "bind",
+      "readonly": true
+    },
+    {
+      "source": "/Users/hadamkova/eng/dtaas/spec-rag-api",
+      "target": "/workspaces/spec-rag-api",
+      "type": "bind",
+      "readonly": true
+    }
+  ],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "postCreateCommand": "bash /opt/opencode-setup/devcontainer-template/setup-container.sh",
+  "remoteUser": "vscode",
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": null,
+    "GIT_ASKPASS": null
+  },
+  "runArgs": []
+}

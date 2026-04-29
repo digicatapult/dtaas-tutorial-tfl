@@ -1,0 +1,11 @@
+{
+  "id": "940GZZLUGPK",
+  "commonName": "Green Park Underground Station",
+  "lat": 51.506947,
+  "lon": -0.142787,
+  "additionalProperties": [
+    {"key": "AccessViaLift", "value": "Yes"},
+    {"key": "Toilet", "value": "No"},
+    {"key": "WiFi", "value": "Yes"}
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "lineId": "victoria",
+  "lineName": "Victoria",
+  "direction": "inbound",
+  "stopPointSequences": [
+    {
+      "direction": "inbound",
+      "branchId": 0,
+      "stopPoint": [
+        {"id": "940GZZLUWWL", "name": "Walthamstow Central"},
+        {"id": "940GZZLUGPK", "name": "Green Park"},
+        {"id": "940GZZLUVXL", "name": "Vauxhall"},
+        {"id": "940GZZLUBXN", "name": "Brixton"}
+      ]
+    }
+  ]
+}

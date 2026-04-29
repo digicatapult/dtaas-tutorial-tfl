@@ -1,0 +1,53 @@
+[
+  {
+    "vehicleId": "101",
+    "lineId": "victoria",
+    "lineName": "Victoria",
+    "direction": "inbound",
+    "naptanId": "940GZZLUGPK",
+    "stationName": "Green Park Underground Station",
+    "destinationNaptanId": "940GZZLUBXN",
+    "destinationName": "Brixton Underground Station",
+    "timeToStation": 120,
+    "expectedArrival": "2025-01-15T12:05:00Z",
+    "timestamp": "2025-01-15T12:03:00Z"
+  },
+  {
+    "vehicleId": "101",
+    "lineId": "victoria",
+    "lineName": "Victoria",
+    "direction": "inbound",
+    "naptanId": "940GZZLUVXL",
+    "stationName": "Vauxhall Underground Station",
+    "destinationNaptanId": "940GZZLUBXN",
+    "destinationName": "Brixton Underground Station",
+    "timeToStation": 300,
+    "expectedArrival": "2025-01-15T12:08:00Z",
+    "timestamp": "2025-01-15T12:03:00Z"
+  },
+  {
+    "vehicleId": "202",
+    "lineId": "victoria",
+    "lineName": "Victoria",
+    "direction": "outbound",
+    "naptanId": "940GZZLUVXL",
+    "stationName": "Vauxhall Underground Station",
+    "destinationNaptanId": "940GZZLUWWL",
+    "destinationName": "Walthamstow Central Underground Station",
+    "timeToStation": 60,
+    "expectedArrival": "2025-01-15T12:04:00Z",
+    "timestamp": "2025-01-15T12:03:00Z"
+  },
+  {
+    "vehicleId": "303",
+    "lineId": "victoria",
+    "lineName": "Victoria",
+    "direction": "inbound",
+    "naptanId": "940GZZLUGPK",
+    "destinationNaptanId": "940GZZLUBXN",
+    "destinationName": "Brixton Underground Station",
+    "timeToStation": 180,
+    "expectedArrival": "2025-01-15T12:06:00Z",
+    "timestamp": "2025-01-15T12:03:00Z"
+  }
+]

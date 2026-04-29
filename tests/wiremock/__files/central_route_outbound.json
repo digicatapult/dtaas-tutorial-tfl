@@ -1,0 +1,15 @@
+{
+  "lineId": "central",
+  "lineName": "Central",
+  "direction": "outbound",
+  "stopPointSequences": [
+    {
+      "direction": "outbound",
+      "branchId": 0,
+      "stopPoint": [
+        {"id": "940GZZLULVT", "name": "Liverpool Street"},
+        {"id": "940GZZLUEPG", "name": "Epping"}
+      ]
+    }
+  ]
+}

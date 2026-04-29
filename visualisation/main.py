@@ -7,16 +7,22 @@ from fastapi.responses import HTMLResponse
 from neo4j import GraphDatabase, exceptions as neo4j_exceptions
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.exceptions import InfluxDBError
-from datetime import datetime
+from datetime import datetime, UTC
 from config import (
-    NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD,
-    INFLUX_URL, INFLUX_TOKEN, INFLUX_ORG, INFLUX_BUCKET,
+    NEO4J_URI,
+    NEO4J_USER,
+    NEO4J_PASSWORD,
+    INFLUX_URL,
+    INFLUX_TOKEN,
+    INFLUX_ORG,
+    INFLUX_BUCKET,
 )
 
 # --- Neo4J and InfluxDB initialization ---
 neo_driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 influx_client = InfluxDBClient(url=INFLUX_URL, token=INFLUX_TOKEN, org=INFLUX_ORG)
 query_api = influx_client.query_api()
+
 
 # --- FastAPI Lifespan ---
 @asynccontextmanager
@@ -29,13 +35,16 @@ async def lifespan(app: FastAPI):
         influx_client.close()
         print("Connections closed on shutdown")
 
+
 app = FastAPI(lifespan=lifespan)
+
 
 # --- Serve index.html at root ---
 @app.get("/", response_class=HTMLResponse)
 async def root():
     html_path = Path(__file__).parent / "index.html"
     return HTMLResponse(content=html_path.read_text(), status_code=200)
+
 
 # --- Fetch stations from Neo4J ---
 async def fetch_stations():
@@ -54,12 +63,12 @@ async def fetch_stations():
         print("Neo4J error:", e)
         return []
 
+
 # --- Fetch live trains from Neo4J ---
 async def fetch_live_trains():
     try:
         with neo_driver.session() as session:
-            result = session.run(
-                """
+            result = session.run("""
                 MATCH (t:Train)
                 MATCH (s:Station {stationId: t.nextStationId})
                 OPTIONAL MATCH (s)-[:servedByLine]->(l:Line)
@@ -70,26 +79,28 @@ async def fetch_live_trains():
                     s.longitude AS lon,
                     l.lineId AS lineId,
                     l.name AS lineName
-                """
-            )
+                """)
 
             trains = []
             for r in result:
-                trains.append({
-                    "trainId": r["trainId"],
-                    "lat": r["lat"],
-                    "lon": r["lon"],
-                    "lineId": r["lineId"] or "unknown",
-                    "line": r["lineName"] or "Unknown",
-                    "nextStation": r["nextStationId"],
-                    "eta": datetime.utcnow().isoformat() + "Z"
-                })
+                trains.append(
+                    {
+                        "trainId": r["trainId"],
+                        "lat": r["lat"],
+                        "lon": r["lon"],
+                        "lineId": r["lineId"] or "unknown",
+                        "line": r["lineName"] or "Unknown",
+                        "nextStation": r["nextStationId"],
+                        "eta": datetime.now(UTC).isoformat() + "Z",
+                    }
+                )
 
             return trains
 
     except neo4j_exceptions.Neo4jError as e:
         print("Neo4J error fetching trains:", e)
         return []
+
 
 # --- WebSocket endpoint ---
 @app.websocket("/ws/trains")
