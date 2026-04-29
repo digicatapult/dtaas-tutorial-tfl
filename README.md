@@ -135,9 +135,9 @@ By default, `poetry run pytest` runs only unit tests (integration and e2e are ex
 ### Integration Tests
 
 ```bash
-docker compose -f docker-compose.test.yml up -d --wait
+docker compose up -d --wait
 poetry run pytest -m integration -v -s
-docker compose -f docker-compose.test.yml down -v
+docker compose down -v
 ```
 
 ### Linting and Formatting

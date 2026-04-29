@@ -1,7 +1,7 @@
 services:
   neo4j:
     image: neo4j:5-community
-    container_name: test-neo4j
+    container_name: neo4j
     restart: "no"
     ports:
       - "7474:7474"
@@ -17,7 +17,7 @@ services:
 
   influxdb:
     image: influxdb:2.8
-    container_name: test-influxdb
+    container_name: influxdb
     restart: "no"
     ports:
       - "8086:8086"
@@ -37,23 +37,17 @@ services:
 
   wiremock:
     image: wiremock/wiremock:3.13.0
-    container_name: test-wiremock
+    container_name: wiremock
     restart: "no"
     ports:
       - "8080:8080"
     volumes:
       - ./tests/wiremock:/home/wiremock:ro
     command: ["--verbose"]
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/__admin/mappings"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
 
   mosquitto:
     image: eclipse-mosquitto:2
-    container_name: test-mosquitto
+    container_name: mosquitto
     restart: "no"
     ports:
       - "1883:1883"
