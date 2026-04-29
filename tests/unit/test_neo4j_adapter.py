@@ -119,16 +119,20 @@ class TestOnMessage:
 
         adapter.on_message(None, None, mock_msg)
 
-    def test_handles_missing_line_id_gracefully(self):
-        adapter = _import_adapter()
+    def test_handles_missing_line_id_gracefully(self, mock_neo4j_driver):
+        mock_driver, mock_session, _ = mock_neo4j_driver
+        adapter = _import_adapter(mock_driver)
         mock_msg = MagicMock()
         mock_msg.topic = "tfl/test"
         mock_msg.payload = json.dumps([{"vehicleId": "101"}]).encode()
 
-        try:
-            adapter.on_message(None, None, mock_msg)
-        except KeyError:
-            pass
+        adapter.on_message(None, None, mock_msg)
+
+        # No trains should be deleted or loaded when lineId is missing
+        delete_calls = [
+            c for c in mock_session.run.call_args_list if "DETACH DELETE" in str(c)
+        ]
+        assert len(delete_calls) == 0
 
 
 @pytest.mark.unit

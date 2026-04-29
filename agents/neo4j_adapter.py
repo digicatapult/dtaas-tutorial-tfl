@@ -30,8 +30,8 @@ def on_message(client, userdata, msg):
     trains = json.loads(msg.payload.decode())
     print(trains)
     if trains:
-        if trains[0]["lineId"]:
-            current_line_id = trains[0]["lineId"]
+        current_line_id = trains[0].get("lineId")
+        if current_line_id:
             delete_trains(current_line_id)
             active_trains = fetch_active_trains(trains, current_line_id)
             if not active_trains:
