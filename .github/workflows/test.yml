@@ -93,9 +93,8 @@ jobs:
         run: docker compose down -v
 
   e2e-tests:
-    name: E2E tests (optional)
+    name: E2E tests
     runs-on: ubuntu-latest
-    if: github.event.pull_request.labels.*.name == 'run-e2e'
     permissions:
       contents: read
     steps:
