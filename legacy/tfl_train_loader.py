@@ -83,7 +83,11 @@ def fetch_active_trains(line_id):
         response = requests.get(url)
         response.raise_for_status()
     except requests.RequestException as e:
-        status_code = getattr(e.response, "status_code", "Unknown") if hasattr(e, "response") and e.response is not None else "Connection Error"
+        status_code = (
+            getattr(e.response, "status_code", "Unknown")
+            if hasattr(e, "response") and e.response is not None
+            else "Connection Error"
+        )
         print(f"Error fetching data for line {line_id} (status {status_code}): {e}")
         return []
 

@@ -45,7 +45,11 @@ def fetch_station(station_id):
         station_cache[station_id] = resp.json()
         return station_cache[station_id]
     except requests.RequestException as e:
-        status_code = getattr(e.response, "status_code", "Unknown") if hasattr(e, "response") and e.response is not None else "Connection Error"
+        status_code = (
+            getattr(e.response, "status_code", "Unknown")
+            if hasattr(e, "response") and e.response is not None
+            else "Connection Error"
+        )
         print(
             f"Warning: Could not fetch station {station_id} (status {status_code}): {e}"
         )
@@ -60,7 +64,11 @@ def get_routes_for_line(line_id):
         resp.raise_for_status()
         routes.append(resp.json())
     except requests.RequestException as e:
-        status_code = getattr(e.response, "status_code", None) if hasattr(e, "response") and e.response is not None else None
+        status_code = (
+            getattr(e.response, "status_code", None)
+            if hasattr(e, "response") and e.response is not None
+            else None
+        )
         if status_code != 404:
             print(
                 f"Warning: Could not fetch route sequence for line {line_id} inbound: {e}"
@@ -72,7 +80,11 @@ def get_routes_for_line(line_id):
         resp.raise_for_status()
         routes.append(resp.json())
     except requests.RequestException as e:
-        status_code = getattr(e.response, "status_code", None) if hasattr(e, "response") and e.response is not None else None
+        status_code = (
+            getattr(e.response, "status_code", None)
+            if hasattr(e, "response") and e.response is not None
+            else None
+        )
         if status_code != 404:
             print(
                 f"Warning: Could not fetch route sequence for line {line_id} outbound: {e}"

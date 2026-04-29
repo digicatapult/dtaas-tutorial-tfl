@@ -310,7 +310,7 @@ class TestCreateGraph:
 
         gb = _import_graph_builder(mock_driver)
         gb.create_graph()
-    
+
         # Verify AccessibilityFeature nodes creation
         feature_names = []
         for call_obj in mock_session.run.call_args_list:
@@ -323,21 +323,23 @@ class TestCreateGraph:
                 params = call_obj.kwargs["parameters"]
             else:
                 params = call_obj.kwargs
-            
+
             if "AccessibilityFeature" in call_text:
                 feature_names.append(params.get("feat"))
-        
+
         # print(f"DEBUG: feature_names={feature_names}")
         # print(f"DEBUG: call_args_list={mock_session.run.call_args_list}")
 
         # Assert at least some features were created (the logic depends on accessibility_features_of_interest)
         assert len(feature_names) > 0
         assert "AccessViaLift" in feature_names
-        
-        # Verify relationship creation
-        has_feature_rel = any("hasAccessibilityFeature" in call_obj.args[0] for call_obj in mock_session.run.call_args_list)
-        assert has_feature_rel
 
+        # Verify relationship creation
+        has_feature_rel = any(
+            "hasAccessibilityFeature" in call_obj.args[0]
+            for call_obj in mock_session.run.call_args_list
+        )
+        assert has_feature_rel
 
     @responses.activate
     def test_malformed_json_raises(self):

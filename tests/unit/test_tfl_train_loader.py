@@ -192,7 +192,9 @@ class TestFindMatchingRoutes:
         mock_session.run.return_value = []
         loader = _import_train_loader(mock_driver=mock_driver)
 
-        loader.find_matching_routes(mock_driver, "victoria", "inbound", "940GZZLUBXN", "940GZZLUGPK")
+        loader.find_matching_routes(
+            mock_driver, "victoria", "inbound", "940GZZLUBXN", "940GZZLUGPK"
+        )
 
         cypher = mock_session.run.call_args[0][0]
         assert "Route" in cypher

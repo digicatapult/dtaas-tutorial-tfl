@@ -115,7 +115,6 @@ def fastapi_server(seeded_graph):
 
 @pytest.mark.e2e
 class TestFullPipeline:
- 
 
     def test_map_page_loads(self, fastapi_server, page):
         """Given the server is running, the root page shows the Leaflet map."""

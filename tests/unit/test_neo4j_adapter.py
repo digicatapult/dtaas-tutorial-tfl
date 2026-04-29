@@ -283,6 +283,7 @@ class TestFetchActiveTrainsErrorPaths:
     @responses.activate
     def test_handles_connection_error_gracefully(self):
         from requests.exceptions import ConnectionError
+
         responses.add(
             responses.GET,
             f"{TFL_BASE_URL}/Line/victoria/Arrivals",
