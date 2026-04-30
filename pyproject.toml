@@ -52,7 +52,7 @@ disable = ["C", "R", "W"]
 
 [tool.black]
 line-length = 88
-target-version = ["py314"]
+target-version = ["py313"]
 
 [tool.mypy]
 packages = ["agents", "legacy", "visualisation"]

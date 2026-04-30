@@ -31,7 +31,7 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.13"
           cache: poetry
       - name: Install packages
         run: poetry install --no-interaction --no-ansi
@@ -53,7 +53,7 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.13"
           cache: poetry
       - name: Install packages
         run: poetry install --no-interaction --no-ansi
@@ -71,7 +71,7 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.13"
           cache: poetry
       - name: Start test services
         run: docker compose up -d --wait
@@ -91,7 +91,7 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.13"
           cache: poetry
       - name: Start test services
         run: docker compose up -d --wait
