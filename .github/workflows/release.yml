@@ -31,7 +31,7 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.14"
           cache: poetry
       - name: Install packages
         run: poetry install --no-interaction --no-ansi
@@ -53,12 +53,12 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.14"
           cache: poetry
       - name: Install packages
         run: poetry install --no-interaction --no-ansi
       - name: Run unit tests
-        run: poetry run pytest -m "not integration and not e2e" -v -s --cov=agents --cov=legacy --cov=visualisation --cov=config --cov-report=term-missing
+        run: poetry run pytest -v -s --cov=agents --cov=legacy --cov=visualisation --cov=config --cov-report=term-missing
 
   integration-tests:
     name: Integration tests
@@ -71,26 +71,14 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.14"
           cache: poetry
       - name: Start test services
         run: docker compose up -d --wait
       - name: Install packages
         run: poetry install --no-interaction --no-ansi
       - name: Run integration tests
-        env:
-          NEO4J_URI: bolt://localhost:7687
-          NEO4J_USER: neo4j
-          NEO4J_PASSWORD: testpassword
-          INFLUX_URL: http://localhost:8086
-          INFLUX_TOKEN: test-token-123
-          INFLUX_ORG: UKDTC
-          INFLUX_BUCKET: TFL
-          WIREMOCK_URL: http://localhost:8080
         run: poetry run pytest -m integration -v -s
-      - name: Stop test services
-        if: always()
-        run: docker compose down -v
 
   e2e-tests:
     name: E2E tests
@@ -103,7 +91,7 @@ jobs:
         run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.14"
           cache: poetry
       - name: Start test services
         run: docker compose up -d --wait
@@ -112,19 +100,7 @@ jobs:
       - name: Install Playwright browsers
         run: poetry run playwright install --with-deps chromium
       - name: Run e2e tests
-        env:
-          NEO4J_URI: bolt://localhost:7687
-          NEO4J_USER: neo4j
-          NEO4J_PASSWORD: testpassword
-          INFLUX_URL: http://localhost:8086
-          INFLUX_TOKEN: test-token-123
-          INFLUX_ORG: UKDTC
-          INFLUX_BUCKET: TFL
-          WIREMOCK_URL: http://localhost:8080
         run: poetry run pytest -m e2e -v -s
-      - name: Stop test services
-        if: always()
-        run: docker compose down -v
 
   scan-secrets:
     uses: digicatapult/shared-workflows/.github/workflows/scan-secrets.yml@main

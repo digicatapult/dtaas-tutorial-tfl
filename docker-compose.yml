@@ -45,18 +45,18 @@ services:
       - ./tests/wiremock:/home/wiremock:ro
     command: ["--verbose"]
 
-  mosquitto:
-    image: eclipse-mosquitto:2
-    container_name: mosquitto
+  emqx:
+    image: emqx/emqx:5
+    container_name: emqx
     restart: "no"
     ports:
       - "1883:1883"
+      - "18083:18083"
     profiles:
       - mqtt
-    command: ["mosquitto", "-c", "/dev/null", "-p", "1883"]
     healthcheck:
-      test: ["CMD-SHELL", "mosquitto_sub -h localhost -t '$$SYS/#' -C 1 -W 2 || exit 0"]
+      test: ["CMD", "emqx", "ctl", "status"]
       interval: 5s
       timeout: 5s
       retries: 10
-      start_period: 5s
+      start_period: 10s

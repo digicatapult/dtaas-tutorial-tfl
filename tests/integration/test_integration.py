@@ -7,26 +7,30 @@ from tests.integration.conftest import (
     NEO4J_URI,
     NEO4J_USER,
     NEO4J_PASSWORD,
-    WIREMOCK_URL,
 )
+
+
+@pytest.fixture()
+def graph_builder(neo4j_driver, wiremock_url, monkeypatch):
+    monkeypatch.setenv("NEO4J_URI", NEO4J_URI)
+    monkeypatch.setenv("NEO4J_USER", NEO4J_USER)
+    monkeypatch.setenv("NEO4J_PASSWORD", NEO4J_PASSWORD)
+
+    import agents.tfl_graph_builder as gb
+
+    importlib.reload(gb)
+    gb.TFL_BASE_URL = wiremock_url
+    gb.LINES_URL = f"{wiremock_url}/Line/Mode/tube"
+    gb.driver = neo4j_driver
+    gb.station_cache.clear()
+
+    return gb
 
 
 @pytest.mark.integration
 class TestNeo4jGraphCreation:
-    def test_create_graph_writes_nodes(self, neo4j_driver, wiremock_url, monkeypatch):
-        monkeypatch.setenv("NEO4J_URI", NEO4J_URI)
-        monkeypatch.setenv("NEO4J_USER", NEO4J_USER)
-        monkeypatch.setenv("NEO4J_PASSWORD", NEO4J_PASSWORD)
-
-        import agents.tfl_graph_builder as gb
-
-        importlib.reload(gb)
-        gb.TFL_BASE_URL = wiremock_url
-        gb.LINES_URL = f"{wiremock_url}/Line/Mode/tube"
-        gb.driver = neo4j_driver
-        gb.station_cache.clear()
-
-        gb.create_graph()
+    def test_create_graph_writes_nodes(self, neo4j_driver, graph_builder):
+        graph_builder.create_graph()
 
         with neo4j_driver.session() as session:
             result = session.run(
@@ -39,20 +43,8 @@ class TestNeo4jGraphCreation:
         assert "Station" in counts
         assert counts["Station"] >= 1
 
-    def test_station_properties_correct(self, neo4j_driver, wiremock_url, monkeypatch):
-        monkeypatch.setenv("NEO4J_URI", NEO4J_URI)
-        monkeypatch.setenv("NEO4J_USER", NEO4J_USER)
-        monkeypatch.setenv("NEO4J_PASSWORD", NEO4J_PASSWORD)
-
-        import agents.tfl_graph_builder as gb
-
-        importlib.reload(gb)
-        gb.TFL_BASE_URL = wiremock_url
-        gb.LINES_URL = f"{wiremock_url}/Line/Mode/tube"
-        gb.driver = neo4j_driver
-        gb.station_cache.clear()
-
-        gb.create_graph()
+    def test_station_properties_correct(self, neo4j_driver, graph_builder):
+        graph_builder.create_graph()
 
         with neo4j_driver.session() as session:
             result = session.run(
@@ -66,20 +58,8 @@ class TestNeo4jGraphCreation:
         assert abs(record["lat"] - 51.506947) < 0.001
         assert abs(record["lon"] - (-0.142787)) < 0.001
 
-    def test_lines_from_both_tube_lines(self, neo4j_driver, wiremock_url, monkeypatch):
-        monkeypatch.setenv("NEO4J_URI", NEO4J_URI)
-        monkeypatch.setenv("NEO4J_USER", NEO4J_USER)
-        monkeypatch.setenv("NEO4J_PASSWORD", NEO4J_PASSWORD)
-
-        import agents.tfl_graph_builder as gb
-
-        importlib.reload(gb)
-        gb.TFL_BASE_URL = wiremock_url
-        gb.LINES_URL = f"{wiremock_url}/Line/Mode/tube"
-        gb.driver = neo4j_driver
-        gb.station_cache.clear()
-
-        gb.create_graph()
+    def test_lines_from_both_tube_lines(self, neo4j_driver, graph_builder):
+        graph_builder.create_graph()
 
         with neo4j_driver.session() as session:
             result = session.run(
@@ -90,22 +70,8 @@ class TestNeo4jGraphCreation:
         assert "victoria" in line_ids
         assert "central" in line_ids
 
-    def test_routes_have_station_sequences(
-        self, neo4j_driver, wiremock_url, monkeypatch
-    ):
-        monkeypatch.setenv("NEO4J_URI", NEO4J_URI)
-        monkeypatch.setenv("NEO4J_USER", NEO4J_USER)
-        monkeypatch.setenv("NEO4J_PASSWORD", NEO4J_PASSWORD)
-
-        import agents.tfl_graph_builder as gb
-
-        importlib.reload(gb)
-        gb.TFL_BASE_URL = wiremock_url
-        gb.LINES_URL = f"{wiremock_url}/Line/Mode/tube"
-        gb.driver = neo4j_driver
-        gb.station_cache.clear()
-
-        gb.create_graph()
+    def test_routes_have_station_sequences(self, neo4j_driver, graph_builder):
+        graph_builder.create_graph()
 
         with neo4j_driver.session() as session:
             result = session.run("MATCH (r:Route) RETURN r.stationSequence AS seq")
@@ -114,22 +80,8 @@ class TestNeo4jGraphCreation:
         assert len(sequences) >= 1
         assert all(len(seq) >= 2 for seq in sequences)
 
-    def test_accessibility_features_created(
-        self, neo4j_driver, wiremock_url, monkeypatch
-    ):
-        monkeypatch.setenv("NEO4J_URI", NEO4J_URI)
-        monkeypatch.setenv("NEO4J_USER", NEO4J_USER)
-        monkeypatch.setenv("NEO4J_PASSWORD", NEO4J_PASSWORD)
-
-        import agents.tfl_graph_builder as gb
-
-        importlib.reload(gb)
-        gb.TFL_BASE_URL = wiremock_url
-        gb.LINES_URL = f"{wiremock_url}/Line/Mode/tube"
-        gb.driver = neo4j_driver
-        gb.station_cache.clear()
-
-        gb.create_graph()
+    def test_accessibility_features_created(self, neo4j_driver, graph_builder):
+        graph_builder.create_graph()
 
         with neo4j_driver.session() as session:
             result = session.run(
@@ -174,20 +126,9 @@ class TestInfluxDBWriteRead:
 @pytest.mark.integration
 class TestFastAPIWebSocket:
     def test_websocket_returns_json_with_stations_and_trains(
-        self, neo4j_driver, wiremock_url, monkeypatch
+        self, neo4j_driver, graph_builder, monkeypatch
     ):
-        monkeypatch.setenv("NEO4J_URI", NEO4J_URI)
-        monkeypatch.setenv("NEO4J_USER", NEO4J_USER)
-        monkeypatch.setenv("NEO4J_PASSWORD", NEO4J_PASSWORD)
-
-        import agents.tfl_graph_builder as gb
-
-        importlib.reload(gb)
-        gb.TFL_BASE_URL = wiremock_url
-        gb.LINES_URL = f"{wiremock_url}/Line/Mode/tube"
-        gb.driver = neo4j_driver
-        gb.station_cache.clear()
-        gb.create_graph()
+        graph_builder.create_graph()
 
         with patch("neo4j.GraphDatabase.driver", return_value=neo4j_driver):
             with patch("influxdb_client.InfluxDBClient"):

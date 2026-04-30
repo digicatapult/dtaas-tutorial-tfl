@@ -13,7 +13,7 @@ The system supports two data ingestion modes. Both require `agents/tfl_graph_bui
 | **Script** | `legacy/tfl_train_loader.py` | `agents/neo4j_adapter.py` |
 | **Data source** | Polls TfL API directly every 30s | Subscribes to MQTT broker fed by Node-RED |
 | **Writes to** | Neo4j + InfluxDB | Neo4j only |
-| **Infrastructure** | Docker (Neo4j + InfluxDB) | UKDTC Sandbox (Neo4j + Mosquitto + Node-RED) |
+| **Infrastructure** | Docker (Neo4j + InfluxDB) | UKDTC Sandbox (Neo4j + EMQX + Node-RED) |
 
 For local development, use the polling approach — it is self-contained and requires no additional infrastructure beyond two Docker containers.
 
