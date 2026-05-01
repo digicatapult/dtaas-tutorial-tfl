@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/Line/victoria/Arrivals"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "victoria_arrivals.json",
+    "headers": { "Content-Type": "application/json" }
+  }
+}

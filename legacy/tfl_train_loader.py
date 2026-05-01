@@ -1,24 +1,28 @@
 import requests
 import time
-from datetime import datetime
+from datetime import datetime, UTC
 from influxdb_client import InfluxDBClient, Point, WriteOptions
 from influxdb_client.client.write_api import SYNCHRONOUS
 from neo4j import GraphDatabase
+from agents.neo4j_utils import find_matching_routes, create_train_and_link_route
 from config import (
-    NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD,
-    INFLUX_URL, INFLUX_TOKEN, INFLUX_ORG, INFLUX_BUCKET,
+    NEO4J_URI,
+    NEO4J_USER,
+    NEO4J_PASSWORD,
+    INFLUX_URL,
+    INFLUX_TOKEN,
+    INFLUX_ORG,
+    INFLUX_BUCKET,
 )
 
 driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 
+
 def init_influx():
-    client = InfluxDBClient(
-        url=INFLUX_URL,
-        token=INFLUX_TOKEN,
-        org=INFLUX_ORG
-    )
+    client = InfluxDBClient(url=INFLUX_URL, token=INFLUX_TOKEN, org=INFLUX_ORG)
     write_api = client.write_api(write_options=SYNCHRONOUS)
     return write_api
+
 
 write_api = init_influx()
 
@@ -34,8 +38,9 @@ UNDERGROUND_LINES = [
     "northern",
     "piccadilly",
     "victoria",
-    "waterloo-city"
+    "waterloo-city",
 ]
+
 
 def write_trains_to_influx(trains, line_id):
     points = []
@@ -56,13 +61,14 @@ def write_trains_to_influx(trains, line_id):
             .tag("destinationStationId", dest_id)
             .field("timeToStation", time_to_station)
             .field("expectedArrival", expected_arrival or "")
-            .time(datetime.utcnow())
+            .time(datetime.now(UTC))
         )
         points.append(p)
 
     if points:
         write_api.write(bucket=INFLUX_BUCKET, record=points)
         print(f"Wrote {len(points)} train points for line {line_id}")
+
 
 def delete_all_trains():
     with driver.session() as session:
@@ -73,10 +79,16 @@ def delete_all_trains():
 def fetch_active_trains(line_id):
     """Fetch arrivals for a specific Underground line."""
     url = f"https://api.tfl.gov.uk/Line/{line_id}/Arrivals"
-    response = requests.get(url)
-
-    if response.status_code != 200:
-        print(f"Error fetching data for line {line_id}: {response.status_code}")
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        status_code = (
+            getattr(e.response, "status_code", "Unknown")
+            if hasattr(e, "response") and e.response is not None
+            else "Connection Error"
+        )
+        print(f"Error fetching data for line {line_id} (status {status_code}): {e}")
         return []
 
     trains = response.json()
@@ -101,59 +113,6 @@ def fetch_active_trains(line_id):
     return list(filtered.values())
 
 
-def create_train_and_link_route(tx, train, route):
-    query = """
-    MERGE (t:Train {vehicleId: $vehicleId})
-    SET t.lineId = $lineId,
-        t.direction = $direction,
-        t.timestamp = $timestamp,
-        t.nextStationName = COALESCE($nextStationName, $destinationName),
-        t.nextStationId = COALESCE($nextStationId, $destinationStationId),
-        t.secondsToNextStop = $secondsToNextStop,
-        t.expectedArrival = $expectedArrival
-    """
-
-    tx.run(query,
-        vehicleId=train.get("vehicleId"),
-        lineId=train.get("lineId"),
-        direction=train.get("direction"),
-        timestamp=train.get("timestamp"),
-        nextStationName=train.get("stationName"),
-        nextStationId=train.get("naptanId"),
-        secondsToNextStop=train.get("timeToStation"),
-        destinationName=train.get("destinationName"),
-        destinationStationId=train.get("destinationNaptanId"),
-        expectedArrival=train.get("expectedArrival")
-    )
-
-    tx.run("""
-    MATCH (t:Train {vehicleId: $vehicleId}), (r:Route {routeId: $routeId})
-    MERGE (t)-[:servesRoute]->(r)
-    """, vehicleId=train.get("vehicleId"), routeId=route["routeId"])
-
-    print(f"Created Train node {train.get('vehicleId')} linked to route {route['routeId']}")
-
-
-def find_matching_routes(line_id, direction, dest_id, naptan_id):
-    query = """
-    MATCH (r:Route)-[:onLine]->(l:Line)
-    WHERE l.lineId = $lineId
-      AND r.direction = $direction
-      AND last(r.stationSequence) = $destinationNaptanId
-      AND $trainNaptanId IN r.stationSequence
-    RETURN r
-    """
-
-    with driver.session() as session:
-        result = session.run(query,
-            lineId=line_id,
-            direction=direction,
-            destinationNaptanId=dest_id,
-            trainNaptanId=naptan_id
-        )
-        return [record["r"] for record in result]
-
-
 def load_trains_for_line(line_id):
     print(f"\nFetching active trains for **{line_id}**...")
     trains = fetch_active_trains(line_id)
@@ -176,7 +135,7 @@ def load_trains_for_line(line_id):
                     print(f"Skipping train {vid} due to missing data.")
                     continue
 
-                routes = find_matching_routes(line_id, direction, dest, naptan)
+                routes = find_matching_routes(driver, line_id, direction, dest, naptan)
 
                 if len(routes) == 1:
                     create_train_and_link_route(tx, train, routes[0])
@@ -191,6 +150,7 @@ def load_all_lines():
     for line_id in UNDERGROUND_LINES:
         load_trains_for_line(line_id)
     print("\n✔ Finished loading all Underground lines.")
+
 
 def main():
     print("Starting 30-second refresh loop for London Underground trains...\n")
@@ -210,6 +170,7 @@ def main():
 
     except KeyboardInterrupt:
         print("\nStopping refresh loop. Goodbye!")
+
 
 if __name__ == "__main__":
     main()

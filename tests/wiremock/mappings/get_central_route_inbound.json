@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/Line/central/Route/Sequence/inbound"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "central_route_inbound.json",
+    "headers": { "Content-Type": "application/json" }
+  }
+}

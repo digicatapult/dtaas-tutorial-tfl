@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/Line/central/Route/Sequence/outbound"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "central_route_outbound.json",
+    "headers": { "Content-Type": "application/json" }
+  }
+}

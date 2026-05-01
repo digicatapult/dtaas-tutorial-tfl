@@ -1,0 +1,32 @@
+[
+  {
+    "id": "940GZZLUBXN",
+    "commonName": "Brixton Underground Station",
+    "lat": 51.462618,
+    "lon": -0.114888,
+    "additionalProperties": [
+      {"key": "AccessViaLift", "value": "No"},
+      {"key": "Toilet", "value": "Yes"}
+    ]
+  },
+  {
+    "id": "940GZZLUVXL",
+    "commonName": "Vauxhall Underground Station",
+    "lat": 51.485743,
+    "lon": -0.124204,
+    "additionalProperties": [
+      {"key": "AccessViaLift", "value": "Yes"},
+      {"key": "TaxiRankOutsideStation", "value": "Yes"}
+    ]
+  },
+  {
+    "id": "940GZZLUGPK",
+    "commonName": "Green Park Underground Station",
+    "lat": 51.506947,
+    "lon": -0.142787,
+    "additionalProperties": [
+      {"key": "AccessViaLift", "value": "Yes"},
+      {"key": "Toilet", "value": "No"}
+    ]
+  }
+]

@@ -1,0 +1,145 @@
+name: Release
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  dtdl-validation:
+    name: Validate DTDL
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install dtdl-parser
+        run: npm install @digicatapult/dtdl-parser
+      - name: Validate DTDL
+        run: node scripts/validate-dtdl.mjs
+
+  lint:
+    name: Lint, format, and type check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: poetry
+      - name: Install packages
+        run: poetry install --no-interaction --no-ansi
+      - name: Lint
+        run: poetry run pylint agents/ legacy/ visualisation/ config.py --disable=C,R,W
+      - name: Format check
+        run: poetry run black --check .
+      - name: Type check
+        run: poetry run mypy agents/ legacy/ visualisation/ config.py
+
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: poetry
+      - name: Install packages
+        run: poetry install --no-interaction --no-ansi
+      - name: Run unit tests
+        run: poetry run pytest -v -s --cov=agents --cov=legacy --cov=visualisation --cov=config --cov-report=term-missing
+
+  integration-tests:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: poetry
+      - name: Start test services
+        run: docker compose up -d --wait
+      - name: Install packages
+        run: poetry install --no-interaction --no-ansi
+      - name: Run integration tests
+        run: poetry run pytest -m integration -v -s
+
+  e2e-tests:
+    name: E2E tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: poetry
+      - name: Start test services
+        run: docker compose up -d --wait
+      - name: Install packages
+        run: poetry install --no-interaction --no-ansi
+      - name: Install Playwright browsers
+        run: poetry run playwright install --with-deps chromium
+      - name: Run e2e tests
+        run: poetry run pytest -m e2e -v -s
+
+  scan-secrets:
+    uses: digicatapult/shared-workflows/.github/workflows/scan-secrets.yml@main
+    permissions:
+      contents: read
+
+  scan-vulns:
+    uses: digicatapult/shared-workflows/.github/workflows/scan-vulns.yml@main
+    permissions:
+      security-events: write
+      contents: read
+      actions: read
+    with:
+      upload_type: "none"
+
+  release-github:
+    name: Create GitHub release
+    needs: [dtdl-validation, lint, unit-tests, integration-tests, e2e-tests, scan-secrets, scan-vulns]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Check version
+        id: get_version
+        uses: digicatapult/check-version@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          package_manager: poetry
+      - name: Create GitHub release
+        if: steps.get_version.outputs.IS_NEW_VERSION == 'true'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          name: Release ${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          make_latest: true
+          generate_release_notes: true
+          token: ${{ secrets.GITHUB_TOKEN }}

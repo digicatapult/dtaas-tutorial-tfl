@@ -13,7 +13,7 @@ The system supports two data ingestion modes. Both require `agents/tfl_graph_bui
 | **Script** | `legacy/tfl_train_loader.py` | `agents/neo4j_adapter.py` |
 | **Data source** | Polls TfL API directly every 30s | Subscribes to MQTT broker fed by Node-RED |
 | **Writes to** | Neo4j + InfluxDB | Neo4j only |
-| **Infrastructure** | Docker (Neo4j + InfluxDB) | UKDTC Sandbox (Neo4j + Mosquitto + Node-RED) |
+| **Infrastructure** | Docker (Neo4j + InfluxDB) | UKDTC Sandbox (Neo4j + EMQX + Node-RED) |
 
 For local development, use the polling approach — it is self-contained and requires no additional infrastructure beyond two Docker containers.
 
@@ -116,6 +116,38 @@ The ontology in `dtdl/LondonUnderground.json` defines the following interfaces:
 | **Line** | A logical line (e.g. Central, Victoria) with a colour |
 | **TransportOperator** | The operating entity (TfL) |
 | **AccessibilityFeature** | Station features such as lifts, toilets, and taxi ranks |
+
+## Testing
+
+This project uses a testing pyramid: unit tests, integration tests (require Docker Compose), and e2e tests.
+
+### Running Tests
+
+```bash
+poetry install
+poetry run pytest                # unit tests only (default)
+poetry run pytest -v -s          # verbose with stdout
+poetry run pytest --cov=agents --cov=legacy --cov=visualisation --cov=config --cov-report=term-missing
+```
+
+By default, `poetry run pytest` runs only unit tests (integration and e2e are excluded via `pyproject.toml` addopts).
+
+### Integration Tests
+
+```bash
+docker compose up -d --wait
+poetry run pytest -m integration -v -s
+docker compose down -v
+```
+
+### Linting and Formatting
+
+```bash
+poetry run pylint agents/ legacy/ visualisation/ config.py --disable=C,R,W
+poetry run black --check .
+poetry run black .
+poetry run mypy agents/ legacy/ visualisation/ config.py
+```
 
 ## Interesting Queries
 

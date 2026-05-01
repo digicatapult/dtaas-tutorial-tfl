@@ -18,7 +18,8 @@
   let stationMarkers = {};
   let trainMarkers = {};
 
-  const ws = new WebSocket("ws://localhost:8000/ws/trains");
+  const wsProto = location.protocol === "https:" ? "wss:" : "ws:";
+  const ws = new WebSocket(`${wsProto}//${location.host}/ws/trains`);
 
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);

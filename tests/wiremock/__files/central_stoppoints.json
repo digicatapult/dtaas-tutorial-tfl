@@ -1,0 +1,22 @@
+[
+  {
+    "id": "940GZZLUEPG",
+    "commonName": "Epping Underground Station",
+    "lat": 51.693517,
+    "lon": 0.113727,
+    "additionalProperties": [
+      {"key": "AccessViaLift", "value": "No"},
+      {"key": "TaxiRankOutsideStation", "value": "Yes"}
+    ]
+  },
+  {
+    "id": "940GZZLULVT",
+    "commonName": "Liverpool Street Underground Station",
+    "lat": 51.517372,
+    "lon": -0.083182,
+    "additionalProperties": [
+      {"key": "AccessViaLift", "value": "Yes"},
+      {"key": "Toilet", "value": "Yes"}
+    ]
+  }
+]
