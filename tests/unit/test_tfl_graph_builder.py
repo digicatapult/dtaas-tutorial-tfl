@@ -327,9 +327,6 @@ class TestCreateGraph:
             if "AccessibilityFeature" in call_text:
                 feature_names.append(params.get("feat"))
 
-        # print(f"DEBUG: feature_names={feature_names}")
-        # print(f"DEBUG: call_args_list={mock_session.run.call_args_list}")
-
         # Assert at least some features were created (the logic depends on accessibility_features_of_interest)
         assert len(feature_names) > 0
         assert "AccessViaLift" in feature_names

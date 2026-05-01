@@ -97,7 +97,7 @@ class TestInfluxDBWriteRead:
     def test_write_and_query_train_points(self, influx_client):
         from influxdb_client import Point
         from influxdb_client.client.write_api import SYNCHRONOUS
-        from datetime import datetime
+        from datetime import datetime, UTC
 
         write_api = influx_client.write_api(write_options=SYNCHRONOUS)
 
@@ -106,7 +106,7 @@ class TestInfluxDBWriteRead:
             .tag("lineId", "victoria")
             .tag("vehicleId", "test-101")
             .field("timeToStation", 120)
-            .time(datetime.utcnow())
+            .time(datetime.now(UTC))
         )
         write_api.write(bucket="TFL", record=[point])
 

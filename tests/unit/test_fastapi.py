@@ -119,6 +119,8 @@ class TestWebSocketEndpoint:
             payload = json.loads(data)
             assert "stations" in payload
             assert "trains" in payload
+            assert len(payload["stations"]) == 1
+            assert len(payload["trains"]) == 1
 
 
 @pytest.mark.unit
