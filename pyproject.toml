@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dtaas-tutorial-tfl"
-version = "0.1.0"
+version = "0.1.1"
 description = "DTaaS Tutorial using Transport for London API"
 authors = []
 readme = "README.md"
@@ -30,7 +30,7 @@ dev = [
     "responses (>=0.26.0,<0.27.0)",
     "pylint (>=4.0.5,<5.0.0)",
     "black (>=26.3.1,<27.0.0)",
-    "mypy (>=1.20.2,<2.0.0)",
+    "mypy (>=2.1.0,<2.1.1)",
     "playwright (>=1.52.0,<2.0.0)",
     "pytest-playwright (>=0.7.0,<1.0.0)"
 ]
