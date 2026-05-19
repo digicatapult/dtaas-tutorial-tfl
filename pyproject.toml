@@ -8,13 +8,13 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.15"
-requests = "^2.31.0"
+requests = "^2.34.2"
 neo4j = "^6.2.0"
-influxdb-client = "^1.38.0"
+influxdb-client = "^1.50.0"
 paho-mqtt = "^2.1.0"
-fastapi = "^0.136.0"
-uvicorn = {version = "^0.45.0", extras = ["standard"]}
-python-dotenv = "^1.0.0"
+fastapi = "^0.136.1"
+uvicorn = {version = "^0.47.0", extras = ["standard"]}
+python-dotenv = "^1.2.2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -31,8 +31,8 @@ dev = [
     "pylint (>=4.0.5,<5.0.0)",
     "black (>=26.3.1,<27.0.0)",
     "mypy (>=2.1.0,<2.1.1)",
-    "playwright (>=1.52.0,<2.0.0)",
-    "pytest-playwright (>=0.7.0,<1.0.0)"
+    "playwright (>=1.59.0,<2.0.0)",
+    "pytest-playwright (>=0.7.2,<1.0.0)"
 ]
 
 # ---- Tool Configuration ----
