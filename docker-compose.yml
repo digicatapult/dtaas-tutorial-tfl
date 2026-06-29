@@ -46,7 +46,7 @@ services:
     command: ["--verbose"]
 
   emqx:
-    image: emqx/emqx:5
+    image: emqx/emqx:6
     container_name: emqx
     restart: "no"
     ports:
