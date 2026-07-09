@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dtaas-tutorial-tfl"
-version = "0.1.14"
+version = "0.1.15"
 description = "DTaaS Tutorial using Transport for London API"
 authors = []
 readme = "README.md"
@@ -13,7 +13,7 @@ neo4j = "^6.2.0"
 influxdb-client = "^1.50.0"
 paho-mqtt = "^2.1.0"
 fastapi = "^0.139.0"
-uvicorn = {version = "^0.49.0", extras = ["standard"]}
+uvicorn = {version = "^0.50.2", extras = ["standard"]}
 python-dotenv = "^1.2.2"
 
 [build-system]
