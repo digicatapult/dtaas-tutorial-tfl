@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dtaas-tutorial-tfl"
-version = "0.1.18"
+version = "0.1.19"
 description = "DTaaS Tutorial using Transport for London API"
 authors = []
 readme = "README.md"
