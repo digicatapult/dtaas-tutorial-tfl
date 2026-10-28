@@ -1,6 +1,6 @@
 services:
   neo4j:
-    image: neo4j:5-community
+    image: neo4j:5-community@sha256:414adfe41c6ff32abb752be37f265c77607c166cab298f65a917fc4f05776218
     container_name: neo4j
     restart: "no"
     ports:
@@ -16,7 +16,7 @@ services:
       start_period: 10s
 
   influxdb:
-    image: influxdb:2.9
+    image: influxdb:2.9@sha256:a450f6faf9573e6c2e96a0f575885ae8b7387cc87e4de94599e247ebfa3ac417
     container_name: influxdb
     restart: "no"
     ports:
@@ -36,7 +36,7 @@ services:
       start_period: 10s
 
   wiremock:
-    image: wiremock/wiremock:3.13.2
+    image: wiremock/wiremock:3.13.2@sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3
     container_name: wiremock
     restart: "no"
     ports:
@@ -46,7 +46,7 @@ services:
     command: ["--verbose"]
 
   emqx:
-    image: emqx/emqx:6
+    image: emqx/emqx:6@sha256:135116400e11b25224350b2e55c874f4e224d357b593fb554ca1b1f398c631ac
     container_name: emqx
     restart: "no"
     ports:
