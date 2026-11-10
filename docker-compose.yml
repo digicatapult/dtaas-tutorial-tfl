@@ -1,6 +1,6 @@
 services:
   neo4j:
-    image: neo4j:5-community@sha256:249a1ec6e3c52d82101a5ed33d6ed2b5ed5b0017b21a28c0bfebc335e87fb177
+    image: neo4j:5-community@sha256:ec10d705830a340c7438e125cb5c4f90522b85369d877c9a581c3de5974ab3d6
     container_name: neo4j
     restart: "no"
     ports:
@@ -16,7 +16,7 @@ services:
       start_period: 10s
 
   influxdb:
-    image: influxdb:2.9@sha256:a450f6faf9573e6c2e96a0f575885ae8b7387cc87e4de94599e247ebfa3ac417
+    image: influxdb:2.9@sha256:e4572d094ac3272f06528ea904ce6b4cb3bb19be2db3b3b1acbd27ba5c3a73e2
     container_name: influxdb
     restart: "no"
     ports:
