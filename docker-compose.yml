@@ -1,6 +1,6 @@
 services:
   neo4j:
-    image: neo4j:5-community@sha256:ec10d705830a340c7438e125cb5c4f90522b85369d877c9a581c3de5974ab3d6
+    image: neo4j:5-community@sha256:577eb43120e8688e62e753e962c47d30044ecaa95147ee5386c29f226b878008
     container_name: neo4j
     restart: "no"
     ports:
@@ -46,7 +46,7 @@ services:
     command: ["--verbose"]
 
   emqx:
-    image: emqx/emqx:6@sha256:135116400e11b25224350b2e55c874f4e224d357b593fb554ca1b1f398c631ac
+    image: emqx/emqx:6@sha256:54778dba62a5cbcb03ca381c9bceb3d8a87cab9e3da155ed3607d994454df900
     container_name: emqx
     restart: "no"
     ports:
